@@ -71,6 +71,11 @@ moto-taller/
 
 ---
 
+📝 Notas Adicionales
+Andrés Sana y Alejandra Justinico son responsables del diseño visual completo del proyecto, incluyendo la estética y experiencia de usuario en el navegador.
+
+El término "marketing" en este contexto se refiere a la presentación visual de la página web, asegurando una interfaz atractiva y funcional para los usuarios.
+
 ---
 
 | Integrante              | Rol Técnico                               | Equipo | Funcionalidades Principales                                                 |

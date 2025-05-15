@@ -130,98 +130,16 @@ Este proyecto se divide en 4 sprints semanales, organizados de menor a mayor com
 
 ---
 
-## ✅ Sprint 1 – 12 al 18 de mayo (Tareas sencillas: interfaz y diseño)
-
-### Equipo 1 – Formulario de contacto
-
-* Vista con campos: nombre, correo, asunto, mensaje.
-* Validaciones básicas de entrada.
-* Confirmación visual de envío.
-
-### Equipo 2 – Consulta del estado de la moto
-
-* Entrada del número de orden.
-* Simulación de estados (ej: "En reparación", "Listo para entrega").
-* Interfaz clara para el cliente.
-
-### Equipo 3 – Encuesta de satisfacción
-
-* Calificación con estrellas (1 a 5) y comentarios.
-* Campos: nombre (opcional), fecha, texto libre.
-* Almacenamiento local de prueba.
-
-### Equipo 4 – Diseño de marketing
-
-* Maquetación de landing page.
-* Secciones: servicios, testimonios, contacto.
-* Estilo moderno y responsivo.
-
----
-
-## ✅ Sprint 2 – 19 al 25 de mayo (Tareas intermedias: lógica y base de datos)
-
-### Equipo 1 – Creación de usuarios
-
-* Registro con nombre, correo, contraseña.
-* Encriptación de contraseñas.
-* Prevención de duplicados.
-
-### Equipo 2 – Base de inventarios
-
-* CRUD de repuestos: nombre, referencia, cantidad, precio.
-* Tabla ordenable y buscable.
-* Edición y eliminación de registros.
-
-### Equipo 3 – Gestión de clientes
-
-* Registro de clientes: nombre, cédula, celular, correo, motos.
-* Asociación de múltiples motos por cliente.
-* Historial editable y consultable.
-
-### Equipo 4 – Órdenes de trabajo
-
-* Crear órdenes: cliente, moto, servicios, repuestos, técnico.
-* Fechas de entrada/salida, observaciones.
-* Visualización por estado.
-
----
-
-## ✅ Sprint 3 – 26 de mayo al 1 de junio (Tareas complejas: integración y roles)
-
-### Equipo 1 – Sistema de facturación
-
-* Generar factura desde la orden de trabajo.
-* Cálculo de subtotal, IVA y total.
-* Exportación a PDF.
-
-### Equipo 2 – Definición de roles de usuario
-
-* Roles: administrador, técnico, recepcionista.
-* Control de acceso por permisos.
-* Vistas adaptadas según el rol.
-
-### Equipo 3 – Apoyo al equipo 1
-
-* Integración de clientes y órdenes con facturación.
-* Validación de datos consistentes.
-* Pruebas funcionales cruzadas.
-
-### Equipo 4 – Apoyo al equipo 3
-
-* Mejora de UI/UX de clientes y órdenes.
-* Ajustes en diseño e interacción.
-* Pruebas de formularios.
-
----
-
-## ✅ Sprint 4 – 2 al 8 de junio (Cierre del proyecto)
-
-### Todos los equipos
-
-* Pruebas de integración del sistema completo.
-* Corrección de errores.
-* Documentación técnica.
-* Entrega final y presentación.
+| Integrante              | Rol Técnico                               | Sprint 1 (12–18 mayo)                                      | Sprint 2 (19–25 mayo)                                                      | Sprint 3 (26 mayo–1 junio)                                | Sprint 4 (2–8 junio)                                |
+| ----------------------- | ----------------------------------------- | ---------------------------------------------------------- | -------------------------------------------------------------------------- | --------------------------------------------------------- | --------------------------------------------------- |
+| **Alejandro Díaz**      | Scrum Master, Product Owner, Backend Lead | Planificación y coordinación general del proyecto          | Desarrollo de backend para gestión de clientes y órdenes de trabajo        | Integración de módulos y pruebas de funcionalidad         | Supervisión de pruebas finales y documentación      |
+| **Karen Méndez**        | Frontend Developer                        | Diseño de interfaz para gestión de clientes                | Implementación de interfaz de órdenes de trabajo                           | Integración de interfaces con backend y ajustes de diseño | Pruebas de interfaz y corrección de errores         |
+| **Astrid Figueroa**     | Backend Developer                         | Configuración inicial del sistema de facturación           | Desarrollo de lógica para facturación y roles de usuario                   | Integración de facturación con órdenes de trabajo         | Pruebas de facturación y ajustes finales            |
+| **Danna Lozano**        | Frontend Developer                        | Diseño de interfaz de usuarios y roles                     | Implementación de formularios de registro y asignación de roles            | Integración de interfaz de usuarios con backend           | Pruebas de interfaz de usuarios y documentación     |
+| **Mauricio Martínez**   | Backend Developer                         | Desarrollo de base de inventarios                          | Implementación de lógica para gestión de inventarios y formulario contacto | Integración de inventarios con órdenes de trabajo         | Pruebas de inventarios y ajustes finales            |
+| **Erika Forero**        | Frontend Developer, UI/UX Designer        | Diseño de formularios de contacto e inventario             | Implementación de interfaces de contacto e inventario                      | Ajustes de diseño y experiencia de usuario                | Pruebas de interfaz y corrección de errores         |
+| **Andrés Sana**         | Frontend Developer, UI/UX Designer        | Diseño de landing page y encuesta de satisfacción          | Implementación de estilos generales y componentes visuales                 | Mejora de UI/UX en módulos existentes                     | Pruebas de experiencia de usuario y ajustes finales |
+| **Alejandra Justinico** | QA Tester, Frontend Developer             | Desarrollo de encuesta de satisfacción y pruebas iniciales | Implementación de pruebas generales y ajustes visuales                     | Pruebas de integración y reporte de errores               | Pruebas finales y documentación de pruebas          |
 
 ---
 

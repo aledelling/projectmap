@@ -16,6 +16,60 @@ Desarrollar una plataforma web con tecnologías accesibles, que permita:
 * Mejorar la atención al cliente con formularios de contacto y encuestas de satisfacción.
 * Ofrecer una vista clara del estado de cada trabajo en curso.
 
+## 📂 Estructura del Proyecto
+
+```
+moto-taller/
+│
+├── app.py                        # Punto de entrada de la aplicación Flask
+├── config.py                     # Configuraciones generales (como la conexión a la BD)
+├── requirements.txt              # Dependencias del proyecto
+├── .gitignore                    # Archivos y carpetas que Git debe ignorar
+│
+├── controllers/                  # Lógica de control
+│   ├── auth_controller.py        # Controlador de autenticación y roles
+│   ├── cliente_controller.py     # CRUD para clientes y motos
+│   ├── orden_controller.py       # CRUD para órdenes de trabajo
+│
+├── models/                       # Modelos de datos
+│   ├── cliente.py                # Modelo de cliente y motocicleta
+│   ├── orden.py                  # Modelo de orden de trabajo y facturación
+│
+├── database/                     # Base de datos y scripts relacionados
+│   ├── init_db.py                # Script de inicialización de la base de datos
+│   ├── moto_taller.db            # Archivo de base de datos SQLite
+│
+├── templates/                    # Plantillas HTML (Jinja2)
+│   ├── base.html                 # Plantilla base
+│   ├── index.html                # Página principal
+│
+├── static/                       # Archivos estáticos como CSS, JS, Imágenes
+│
+├── tests/                        # Pruebas unitarias
+│   └── test_clientes.py          # Prueba para el módulo de clientes
+│
+└── docs/                         # Documentación
+    ├── arquitectura.md           # Documento de arquitectura del sistema
+    ├── base_datos.md             # Documento sobre la base de datos
+```
+
+## 👥 Integrantes y Áreas de Trabajo
+
+| Integrante              | Rol Técnico                               | Equipo | Área del Proyecto (Ubicación en la estructura)                         |
+| ----------------------- | ----------------------------------------- | ------ | ---------------------------------------------------------------------- |
+| **Alejandro Díaz**      | Scrum Master, Product Owner, Backend Lead | 3      | `controllers/cliente_controller.py`, `controllers/orden_controller.py` |
+| **Karen Méndez**        | Frontend Developer                        | 3      | `templates/`, `static/` (gestión clientes, órdenes, estado moto)       |
+| **Astrid Figueroa**     | Backend Developer                         | 1      | `controllers/auth_controller.py`, `models/cliente.py`                  |
+| **Danna Lozano**        | Frontend Developer                        | 1      | `templates/usuarios.html`, `static/usuarios.css` (roles y acceso)      |
+| **Mauricio Martínez**   | Backend Developer                         | 2      | `models/orden.py`, `database/init_db.py`, `controllers/inventario.py`  |
+| **Erika Forero**        | Frontend Developer, UI/UX Designer        | 2      | `templates/contacto.html`, `templates/inventario.html`                 |
+| **Andrés Sana**         | Frontend Developer, UI/UX Designer        | 4      | `templates/encuesta.html`, `templates/marketing.html`                  |
+| **Alejandra Justinico** | QA Tester, Frontend Developer             | 4      | `tests/test_clientes.py`, `templates/encuesta.html`, pruebas de UI     |
+
+(El contenido de cada archivo puede variar. Las rutas se basan en una organización estándar propuesta.)
+
+---
+
 ---
 
 | Integrante              | Rol Técnico                               | Equipo | Funcionalidades Principales                                                 |
@@ -299,3 +353,4 @@ git push -u origin main
 ---
 
 🎉 ¡Y listo! Ya puedes trabajar con Git y GitHub desde Visual Studio Code.
+

@@ -16,7 +16,44 @@ Desarrollar una plataforma web con tecnologías accesibles, que permita:
 * Mejorar la atención al cliente con formularios de contacto y encuestas de satisfacción.
 * Ofrecer una vista clara del estado de cada trabajo en curso.
 
----
+## 📂 Estructura del Proyecto
+
+```
+moto-taller/
+│
+├── app.py                        # Punto de entrada de la aplicación Flask
+├── config.py                     # Configuraciones generales (como la conexión a la BD)
+├── requirements.txt              # Dependencias del proyecto
+├── .gitignore                    # Archivos y carpetas que Git debe ignorar
+│
+├── controllers/                  # Lógica de control
+│   ├── auth_controller.py        # Controlador de autenticación y roles
+│   ├── cliente_controller.py     # CRUD para clientes y motos
+│   ├── orden_controller.py       # CRUD para órdenes de trabajo
+│
+├── models/                       # Modelos de datos
+│   ├── cliente.py                # Modelo de cliente y motocicleta
+│   ├── orden.py                  # Modelo de orden de trabajo y facturación
+│
+├── database/                     # Base de datos y scripts relacionados
+│   ├── init_db.py                # Script de inicialización de la base de datos
+│   ├── moto_taller.db            # Archivo de base de datos SQLite
+│
+├── templates/                    # Plantillas HTML
+│   ├── base.html                 # Plantilla base
+│   ├── index.html                # Página principal
+│
+├── static/                       # Archivos estáticos como CSS, JS, Imágenes
+│
+├── tests/                        # Pruebas unitarias
+│   └── test_clientes.py          # Prueba para el módulo de clientes
+│
+└── docs/                         # Documentación
+    ├── arquitectura.md           # Documento de arquitectura del sistema
+    ├── base_datos.md             # Documento sobre la base de datos
+```
+
+## 👥 Integrantes y Áreas de Trabajo
 
 | Integrante              | Rol Técnico                               | Equipo | Funcionalidades Principales                                                 |
 | ----------------------- | ----------------------------------------- | ------ | --------------------------------------------------------------------------- |
@@ -41,6 +78,31 @@ Desarrollar una plataforma web con tecnologías accesibles, que permita:
 | 2      | Base de inventarios, Formulario de contacto                           |
 | 3      | Gestión de clientes y motos, Órdenes de trabajo, Consulta estado moto |
 | 4      | Marketing visual, Encuesta de satisfacción                            |
+
+---
+
+## 👥 Ubicación Áreas de Trabajo
+
+| Integrante              | Rol Técnico                               | Ubicación en el Código                                                                                         | Funcionalidades Principales                                                                 |
+| ----------------------- | ----------------------------------------- | -------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------- |
+| **Alejandro Díaz**      | Scrum Master, Product Owner, Backend Lead | `controllers/cliente_controller.py`, `controllers/orden_controller.py`, `models/cliente.py`, `models/orden.py` | Gestión de clientes, Órdenes de trabajo, Consulta estado de la moto                         |
+| **Karen Méndez**        | Frontend Developer                        | `templates/cliente/`, `templates/orden/`, `templates/estado_moto/`                                             | Interfaz de gestión de clientes, órdenes y estado de la moto                                |
+| **Astrid Figueroa**     | Backend Developer                         | `controllers/factura_controller.py`, `models/factura.py`, `controllers/auth_controller.py`                     | Lógica del sistema de facturación, gestión de roles de usuario                              |
+| **Danna Lozano**        | Frontend Developer                        | `templates/usuarios/`, `templates/roles/`                                                                      | Interfaz de usuarios y asignación de roles                                                  |
+| **Mauricio Martínez**   | Backend Developer                         | `controllers/inventario_controller.py`, `models/inventario.py`, `controllers/contacto_controller.py`           | Base de inventarios, lógica de recepción del formulario de contacto                         |
+| **Erika Forero**        | Frontend Developer, UI/UX Designer        | `templates/contacto/`, `templates/inventario/`                                                                 | Interfaces del formulario de contacto e inventario                                          |
+| **Andrés Sana**         | Frontend Developer, UI/UX Designer        | `templates/encuesta/`, `static/css/`, `static/js/`, `templates/landing_page/`                                  | Diseño visual de la encuesta de satisfacción, landing page y estilos generales del proyecto |
+| **Alejandra Justinico** | QA Tester, Frontend Developer             | `templates/encuesta/`, `templates/landing_page/`, `tests/`                                                     | Encuesta de satisfacción, pruebas generales, interfaz visual para el proyecto               |
+
+
+(El contenido de cada archivo puede variar. Las rutas se basan en una organización estándar propuesta.)
+
+---
+
+📝 Notas Adicionales
+Andrés Sana y Alejandra Justinico son responsables del diseño visual completo del proyecto, incluyendo la estética y experiencia de usuario en el navegador.
+
+El término "marketing" en este contexto se refiere a la presentación visual de la página web, asegurando una interfaz atractiva y funcional para los usuarios.
 
 ---
 
@@ -242,7 +304,7 @@ git config --global user.email "tucorreo@ejemplo.com"
 1. Abre Visual Studio Code
 2. Clic en Source Control o `Ctrl + Shift + G`
 3. Clic en **"Clonar repositorio"**
-4. Pega la URL del repo: `https://github.com/aledelling/projectmap.git`
+4. Pega la URL del repo: `https://github.com/usuario/repositorio.git`
 5. Elige la carpeta donde guardar
 6. Abre la carpeta cuando lo solicite
 
@@ -299,3 +361,4 @@ git push -u origin main
 ---
 
 🎉 ¡Y listo! Ya puedes trabajar con Git y GitHub desde Visual Studio Code.
+

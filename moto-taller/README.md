@@ -39,7 +39,7 @@ moto-taller/
 │   ├── init_db.py                # Script de inicialización de la base de datos
 │   ├── moto_taller.db            # Archivo de base de datos SQLite
 │
-├── templates/                    # Plantillas HTML (Jinja2)
+├── templates/                    # Plantillas HTML
 │   ├── base.html                 # Plantilla base
 │   ├── index.html                # Página principal
 │
@@ -55,16 +55,17 @@ moto-taller/
 
 ## 👥 Integrantes y Áreas de Trabajo
 
-| Integrante              | Rol Técnico                               | Equipo | Área del Proyecto (Ubicación en la estructura)                         |
-| ----------------------- | ----------------------------------------- | ------ | ---------------------------------------------------------------------- |
-| **Alejandro Díaz**      | Scrum Master, Product Owner, Backend Lead | 3      | `controllers/cliente_controller.py`, `controllers/orden_controller.py` |
-| **Karen Méndez**        | Frontend Developer                        | 3      | `templates/`, `static/` (gestión clientes, órdenes, estado moto)       |
-| **Astrid Figueroa**     | Backend Developer                         | 1      | `controllers/auth_controller.py`, `models/cliente.py`                  |
-| **Danna Lozano**        | Frontend Developer                        | 1      | `templates/usuarios.html`, `static/usuarios.css` (roles y acceso)      |
-| **Mauricio Martínez**   | Backend Developer                         | 2      | `models/orden.py`, `database/init_db.py`, `controllers/inventario.py`  |
-| **Erika Forero**        | Frontend Developer, UI/UX Designer        | 2      | `templates/contacto.html`, `templates/inventario.html`                 |
-| **Andrés Sana**         | Frontend Developer, UI/UX Designer        | 4      | `templates/encuesta.html`, `templates/marketing.html`                  |
-| **Alejandra Justinico** | QA Tester, Frontend Developer             | 4      | `tests/test_clientes.py`, `templates/encuesta.html`, pruebas de UI     |
+| Integrante              | Rol Técnico                               | Ubicación en el Código                                                                                         | Funcionalidades Principales                                                                 |
+| ----------------------- | ----------------------------------------- | -------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------- |
+| **Alejandro Díaz**      | Scrum Master, Product Owner, Backend Lead | `controllers/cliente_controller.py`, `controllers/orden_controller.py`, `models/cliente.py`, `models/orden.py` | Gestión de clientes, Órdenes de trabajo, Consulta estado de la moto                         |
+| **Karen Méndez**        | Frontend Developer                        | `templates/cliente/`, `templates/orden/`, `templates/estado_moto/`                                             | Interfaz de gestión de clientes, órdenes y estado de la moto                                |
+| **Astrid Figueroa**     | Backend Developer                         | `controllers/factura_controller.py`, `models/factura.py`, `controllers/auth_controller.py`                     | Lógica del sistema de facturación, gestión de roles de usuario                              |
+| **Danna Lozano**        | Frontend Developer                        | `templates/usuarios/`, `templates/roles/`                                                                      | Interfaz de usuarios y asignación de roles                                                  |
+| **Mauricio Martínez**   | Backend Developer                         | `controllers/inventario_controller.py`, `models/inventario.py`, `controllers/contacto_controller.py`           | Base de inventarios, lógica de recepción del formulario de contacto                         |
+| **Erika Forero**        | Frontend Developer, UI/UX Designer        | `templates/contacto/`, `templates/inventario/`                                                                 | Interfaces del formulario de contacto e inventario                                          |
+| **Andrés Sana**         | Frontend Developer, UI/UX Designer        | `templates/encuesta/`, `static/css/`, `static/js/`, `templates/landing_page/`                                  | Diseño visual de la encuesta de satisfacción, landing page y estilos generales del proyecto |
+| **Alejandra Justinico** | QA Tester, Frontend Developer             | `templates/encuesta/`, `templates/landing_page/`, `tests/`                                                     | Encuesta de satisfacción, pruebas generales, interfaz visual para el proyecto               |
+
 
 (El contenido de cada archivo puede variar. Las rutas se basan en una organización estándar propuesta.)
 

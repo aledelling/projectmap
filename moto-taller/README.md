@@ -55,29 +55,6 @@ moto-taller/
 
 ## 👥 Integrantes y Áreas de Trabajo
 
-| Integrante              | Rol Técnico                               | Ubicación en el Código                                                                                         | Funcionalidades Principales                                                                 |
-| ----------------------- | ----------------------------------------- | -------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------- |
-| **Alejandro Díaz**      | Scrum Master, Product Owner, Backend Lead | `controllers/cliente_controller.py`, `controllers/orden_controller.py`, `models/cliente.py`, `models/orden.py` | Gestión de clientes, Órdenes de trabajo, Consulta estado de la moto                         |
-| **Karen Méndez**        | Frontend Developer                        | `templates/cliente/`, `templates/orden/`, `templates/estado_moto/`                                             | Interfaz de gestión de clientes, órdenes y estado de la moto                                |
-| **Astrid Figueroa**     | Backend Developer                         | `controllers/factura_controller.py`, `models/factura.py`, `controllers/auth_controller.py`                     | Lógica del sistema de facturación, gestión de roles de usuario                              |
-| **Danna Lozano**        | Frontend Developer                        | `templates/usuarios/`, `templates/roles/`                                                                      | Interfaz de usuarios y asignación de roles                                                  |
-| **Mauricio Martínez**   | Backend Developer                         | `controllers/inventario_controller.py`, `models/inventario.py`, `controllers/contacto_controller.py`           | Base de inventarios, lógica de recepción del formulario de contacto                         |
-| **Erika Forero**        | Frontend Developer, UI/UX Designer        | `templates/contacto/`, `templates/inventario/`                                                                 | Interfaces del formulario de contacto e inventario                                          |
-| **Andrés Sana**         | Frontend Developer, UI/UX Designer        | `templates/encuesta/`, `static/css/`, `static/js/`, `templates/landing_page/`                                  | Diseño visual de la encuesta de satisfacción, landing page y estilos generales del proyecto |
-| **Alejandra Justinico** | QA Tester, Frontend Developer             | `templates/encuesta/`, `templates/landing_page/`, `tests/`                                                     | Encuesta de satisfacción, pruebas generales, interfaz visual para el proyecto               |
-
-
-(El contenido de cada archivo puede variar. Las rutas se basan en una organización estándar propuesta.)
-
----
-
-📝 Notas Adicionales
-Andrés Sana y Alejandra Justinico son responsables del diseño visual completo del proyecto, incluyendo la estética y experiencia de usuario en el navegador.
-
-El término "marketing" en este contexto se refiere a la presentación visual de la página web, asegurando una interfaz atractiva y funcional para los usuarios.
-
----
-
 | Integrante              | Rol Técnico                               | Equipo | Funcionalidades Principales                                                 |
 | ----------------------- | ----------------------------------------- | ------ | --------------------------------------------------------------------------- |
 | **Alejandro Díaz**      | Scrum Master, Product Owner, Backend Lead | 3      | Gestión de clientes, Órdenes de trabajo, Consulta estado de la moto         |
@@ -101,6 +78,31 @@ El término "marketing" en este contexto se refiere a la presentación visual de
 | 2      | Base de inventarios, Formulario de contacto                           |
 | 3      | Gestión de clientes y motos, Órdenes de trabajo, Consulta estado moto |
 | 4      | Marketing visual, Encuesta de satisfacción                            |
+
+---
+
+## 👥 Áreas de Trabajo
+
+| Integrante              | Rol Técnico                               | Ubicación en el Código                                                                                         | Funcionalidades Principales                                                                 |
+| ----------------------- | ----------------------------------------- | -------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------- |
+| **Alejandro Díaz**      | Scrum Master, Product Owner, Backend Lead | `controllers/cliente_controller.py`, `controllers/orden_controller.py`, `models/cliente.py`, `models/orden.py` | Gestión de clientes, Órdenes de trabajo, Consulta estado de la moto                         |
+| **Karen Méndez**        | Frontend Developer                        | `templates/cliente/`, `templates/orden/`, `templates/estado_moto/`                                             | Interfaz de gestión de clientes, órdenes y estado de la moto                                |
+| **Astrid Figueroa**     | Backend Developer                         | `controllers/factura_controller.py`, `models/factura.py`, `controllers/auth_controller.py`                     | Lógica del sistema de facturación, gestión de roles de usuario                              |
+| **Danna Lozano**        | Frontend Developer                        | `templates/usuarios/`, `templates/roles/`                                                                      | Interfaz de usuarios y asignación de roles                                                  |
+| **Mauricio Martínez**   | Backend Developer                         | `controllers/inventario_controller.py`, `models/inventario.py`, `controllers/contacto_controller.py`           | Base de inventarios, lógica de recepción del formulario de contacto                         |
+| **Erika Forero**        | Frontend Developer, UI/UX Designer        | `templates/contacto/`, `templates/inventario/`                                                                 | Interfaces del formulario de contacto e inventario                                          |
+| **Andrés Sana**         | Frontend Developer, UI/UX Designer        | `templates/encuesta/`, `static/css/`, `static/js/`, `templates/landing_page/`                                  | Diseño visual de la encuesta de satisfacción, landing page y estilos generales del proyecto |
+| **Alejandra Justinico** | QA Tester, Frontend Developer             | `templates/encuesta/`, `templates/landing_page/`, `tests/`                                                     | Encuesta de satisfacción, pruebas generales, interfaz visual para el proyecto               |
+
+
+(El contenido de cada archivo puede variar. Las rutas se basan en una organización estándar propuesta.)
+
+---
+
+📝 Notas Adicionales
+Andrés Sana y Alejandra Justinico son responsables del diseño visual completo del proyecto, incluyendo la estética y experiencia de usuario en el navegador.
+
+El término "marketing" en este contexto se refiere a la presentación visual de la página web, asegurando una interfaz atractiva y funcional para los usuarios.
 
 ---
 

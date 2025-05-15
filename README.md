@@ -242,7 +242,7 @@ git config --global user.email "tucorreo@ejemplo.com"
 1. Abre Visual Studio Code
 2. Clic en Source Control o `Ctrl + Shift + G`
 3. Clic en **"Clonar repositorio"**
-4. Pega la URL del repo: `https://github.com/usuario/repositorio.git`
+4. Pega la URL del repo: `https://github.com/aledelling/projectmap.git`
 5. Elige la carpeta donde guardar
 6. Abre la carpeta cuando lo solicite
 

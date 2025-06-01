@@ -1,62 +1,6 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8"> 
-    <title>Moto-Taller</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f6f8;
-            margin: 0;
-            padding: 0;
-            text-align: center;
-        }
-        header {
-            background-color: #2c3e50;
-            color: white;
-            padding: 20px 0;
-        }
-        nav a {
-            margin: 0 15px;
-            text-decoration: none;
-            color: #ecf0f1;
-            font-weight: bold;
-        }
-        main {
-            padding: 40px;
-        }
-        .btn {
-            display: inline-block;
-            padding: 10px 20px;
-            margin: 10px;
-            background-color: #3498db;
-            color: white;
-            text-decoration: none;
-            border-radius: 8px;
-        }
-        .btn:hover {
-            background-color: #2980b9;
-        }
-    </style>
-</head>
-<body>
+{% extends "base.html" %}
 
-    <header>
-        <h1>Bienvenido al sistema de Moto-Taller</h1>
-        <nav>
-            <a href="{{ url_for('cliente_bp.listar_clientes') }}">Clientes</a>
-            <a href="{{ url_for('orden_bp.listar_ordenes') }}">Órdenes</a>
-            <a href="{{ url_for('auth_bp.login') }}">Iniciar Sesión</a>
-        </nav>
-    </header>
-
-    <main>
-        <p>Gestiona tus clientes, órdenes de servicio y personal del taller de manera fácil y rápida.</p>
-
-        <a class="btn" href="{{ url_for('cliente_bp.nuevo_cliente') }}">Agregar nuevo cliente</a>
-        <a class="btn" href="{{ url_for('orden_bp.nueva_orden') }}">Crear nueva orden</a>
-    </main>
-
-</body>
-</html>
+{% block content %}
+    <h2>Bienvenido al sistema de Moto-Taller</h2>
+    <p>Administra tus clientes y órdenes fácilmente.</p>
+{% endblock %}

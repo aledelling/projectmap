@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Moto-Taller | Software de Gestión</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/landing.css') }}">
+</head>
+<body>
+
+    <!-- NAVBAR -->
+    <nav>
+        <div class="logo">Moto-Taller</div>
+        <ul>
+            <li><a href="#funcionalidades">Funcionalidades</a></li>
+            <li><a href="#contacto">Contacto</a></li>
+            <li><a href="/auth/login">Iniciar Sesión</a></li>
+        </ul>
+    </nav>
+
+    <!-- HERO -->
+    <section class="hero">
+        <h1>Bienvenido a Moto-Taller</h1>
+        <p>La solución moderna para gestionar tu taller de motocicletas. Registra clientes, controla órdenes de servicio, y administra tu negocio desde cualquier lugar.</p>
+    </section>
+
+    <!-- FUNCIONALIDADES -->
+    <section id="funcionalidades" class="features">
+        <div class="card">
+            <h3>Gestión de Clientes</h3>
+            <p>Agrega, edita y consulta la información de tus clientes en segundos.</p>
+        </div>
+        <div class="card">
+            <h3>Órdenes de Servicio</h3>
+            <p>Crea y visualiza órdenes de trabajo detalladas para cada motocicleta.</p>
+        </div>
+        <div class="card">
+            <h3>Historial y Reportes</h3>
+            <p>Consulta el historial de servicios y genera reportes fáciles de entender.</p>
+        </div>
+        <div class="card">
+            <h3>Acceso Seguro</h3>
+            <p>Usuarios con login y control de acceso para mayor seguridad.</p>
+        </div>
+    </section>
+
+    <!-- LLAMADO A LA ACCIÓN -->
+    <section class="cta">
+        <h2>¿Listo para mejorar tu taller?</h2>
+        <a href="/auth/login">Comenzar ahora</a>
+    </section>
+
+    <!-- FOOTER -->
+    <footer id="contacto">
+        <p>&copy; 2025 Moto-Taller. Todos los derechos reservados.</p>
+    </footer>
+
+</body>
+</html>

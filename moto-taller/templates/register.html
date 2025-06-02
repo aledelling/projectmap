@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Registro de Usuario | Moto-Taller</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/landing.css') }}">
+    <style>
+        .register-container {
+            max-width: 400px;
+            margin: 100px auto;
+            background-color: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .register-container h2 {
+            margin-bottom: 1rem;
+            text-align: center;
+            color: #0077b6;
+        }
+
+        .register-container input {
+            width: 100%;
+            padding: 0.7rem;
+            margin-bottom: 1rem;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+        }
+
+        .register-container button {
+            width: 100%;
+            padding: 0.7rem;
+            background-color: #00a896;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .register-container button:hover {
+            background-color: #028090;
+        }
+
+        .register-container p {
+            text-align: center;
+            margin-top: 1rem;
+        }
+
+        .register-container a {
+            color: #f77f00;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="logo">Moto-Taller</div>
+        <ul>
+            <li><a href="/">Inicio</a></li>
+        </ul>
+    </nav>
+
+    <div class="register-container">
+        <h2>Crear Cuenta</h2>
+        <form method="POST" action="{{ url_for('auth.register') }}">
+                <input type="text" name="nombre" placeholder="Nombre completo" required>
+                <input type="email" name="correo" placeholder="Correo electrónico" required>
+                <input type="password" name="contraseña" placeholder="Contraseña" required>
+                <input type="password" name="confirmar" placeholder="Confirmar contraseña" required>
+            <button type="submit">Registrar</button>
+        </form>
+        <p>¿Ya tienes cuenta? <a href="{{ url_for('auth.login') }}">Inicia sesión</a></p>
+    </div>
+
+</body>
+</html>

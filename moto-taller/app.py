@@ -11,12 +11,14 @@ from controllers.auth_controller import auth  # ← Cambiado a "auth"
 from database.db_config import db
 
 # Importa la clase de configuración
-from config import Config
+from config.config import Config
 
 # Función para crear y configurar la aplicación Flask
 def create_app():
     app = Flask(__name__)
     app.config.from_object(Config)
+
+    print("Conectando a la base de datos:", app.config['SQLALCHEMY_DATABASE_URI'])
 
     # Inicializa SQLAlchemy con la app
     db.init_app(app)

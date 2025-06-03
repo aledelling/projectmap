@@ -1,20 +1,22 @@
--- Tabla de roles --
+PRAGMA foreign_keys = ON;
+
+-- Tabla de roles
 CREATE TABLE roles (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     nombre TEXT NOT NULL UNIQUE
 );
 
--- Tabla de usuarios---
+-- Tabla de usuarios
 CREATE TABLE usuarios (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     nombre TEXT NOT NULL,
     correo TEXT NOT NULL UNIQUE,
-    contrasena TEXT NOT NULL,
+    contraseña_hash TEXT NOT NULL,
     rol_id INTEGER NOT NULL,
     FOREIGN KEY (rol_id) REFERENCES roles(id)
 );
 
--- Tabla de clientes ---
+-- Tabla de clientes
 CREATE TABLE clientes (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     nombre TEXT NOT NULL,
@@ -23,7 +25,7 @@ CREATE TABLE clientes (
     correo TEXT
 );
 
--- Tabla de motos ---
+-- Tabla de motos
 CREATE TABLE motos (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     cliente_id INTEGER NOT NULL,
@@ -33,7 +35,7 @@ CREATE TABLE motos (
     FOREIGN KEY (cliente_id) REFERENCES clientes(id)
 );
 
--- Tabla de repuestos ---
+-- Tabla de repuestos
 CREATE TABLE repuestos (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     nombre TEXT NOT NULL,
@@ -42,7 +44,7 @@ CREATE TABLE repuestos (
     precio REAL NOT NULL
 );
 
--- Tabla de órdenes de trabajo ---
+-- Tabla de órdenes de trabajo
 CREATE TABLE ordenes_trabajo (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     cliente_id INTEGER NOT NULL,
@@ -57,7 +59,7 @@ CREATE TABLE ordenes_trabajo (
     FOREIGN KEY (tecnico_id) REFERENCES usuarios(id)
 );
 
--- Tabla de detalles de repuestos usados en cada orden ---
+-- Tabla de detalles de repuestos usados en cada orden
 CREATE TABLE ordenes_repuestos (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     orden_id INTEGER NOT NULL,
@@ -67,7 +69,7 @@ CREATE TABLE ordenes_repuestos (
     FOREIGN KEY (repuesto_id) REFERENCES repuestos(id)
 );
 
--- Tabla de facturas ---
+-- Tabla de facturas
 CREATE TABLE facturas (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     orden_id INTEGER NOT NULL,
@@ -77,3 +79,10 @@ CREATE TABLE facturas (
     total REAL NOT NULL,
     FOREIGN KEY (orden_id) REFERENCES ordenes_trabajo(id)
 );
+
+-- Inserción de roles por defecto
+INSERT INTO roles (nombre) VALUES 
+('Administrador'),
+('Técnico'),
+('Asesor'),
+('Cliente');

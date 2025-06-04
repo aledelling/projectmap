@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Generar Factura</title>
+    <link rel="stylesheet" href="estilos.css">
+</head>
+<body>
+    <h1>Generar Factura</h1>
+    <form method="POST">
+        <label for="orden_id">Orden:</label>
+        <select name="orden_id" required>
+            {% for orden in ordenes %}
+                <option value="{{ orden.id }}">Orden #{{ orden.id }} - {{ orden.cliente }} ({{ orden.placa }})</option>
+            {% endfor %}
+        </select>
+
+        <label for="subtotal">Subtotal:</label>
+        <input type="number" step="0.01" name="subtotal" required>
+
+        <button type="submit">Generar Factura</button>
+    </form>
+</body>
+</html>

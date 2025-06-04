@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Generar Usuarios</title>
+<link rel="stylesheet" href="estilos.css">
+
+<h2>Usuarios</h2>
+<table>
+  <thead>
+    <tr><th>Nombre</th><th>Correo</th><th>Rol</th></tr>
+  </thead>
+  <tbody>
+    {% for u in usuarios %}
+    <tr>
+      <td>{{ u['nombre'] }}</td>
+      <td>{{ u['correo'] }}</td>
+      <td>{{ u['rol_nombre'] }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>

@@ -108,13 +108,13 @@ El término "marketing" en este contexto se refiere a la presentación visual de
 
 ## 📂 Product Backlog
 
-* [ ] Definir nombre del proyecto
+* [x] Definir nombre del proyecto
 * [x] Asignar roles
-* [ ] Sistema de facturación
+* [x] Sistema de facturación
 * [ ] Base de inventarios
-* [ ] Gestión de clientes y motos
+* [x] Gestión de clientes y motos
 * [ ] Órdenes de trabajo
-* [ ] Área y roles de usuario
+* [x] Área y roles de usuario
 * [ ] Formulario de contacto
 * [ ] Diseño y estrategia de marketing
 * [ ] Encuesta de satisfacción

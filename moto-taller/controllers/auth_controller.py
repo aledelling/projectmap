@@ -18,25 +18,31 @@ def login():
 
         if user and user.check_password(contraseña):
             session['usuario_id'] = user.id
-            session['rol'] = user.rol
+            session['username'] = user.nombre
 
-            flash('Sesión iniciada correctamente.', 'success')
+            # Verificamos que el rol esté correctamente definido
+            if user.rol and user.rol.nombre:
+                rol_nombre = user.rol.nombre.lower().strip()
+                session['rol'] = rol_nombre
 
-            if user.rol == 'administrador':
-                return redirect(url_for('admin.dashboard'))
-            elif user.rol == 'tecnico':
-                return redirect(url_for('tecnico.dashboard'))
-            elif user.rol == 'asesor':
-                return redirect(url_for('asesor.dashboard'))
-            elif user.rol == 'cliente':
-                return redirect(url_for('cliente.dashboard'))
+                flash('Sesión iniciada correctamente.', 'success')
+
+                # Redirigir según el rol
+                if rol_nombre in ['administrador', 'tecnico', 'asesor']:
+                    return redirect(url_for('dashboard.admin_dashboard'))
+                elif rol_nombre == 'cliente':
+                    return redirect(url_for('cliente.dashboard'))
+                else:
+                    flash('Rol no reconocido.', 'danger')
+                    return redirect(url_for('auth.login'))
             else:
-                flash('Rol no reconocido.', 'danger')
+                flash('Usuario sin rol asignado.', 'danger')
                 return redirect(url_for('auth.login'))
 
         flash('Credenciales incorrectas.', 'danger')
 
     return render_template('login.html')
+
 
 # --------------------------
 # RUTA PARA REGISTRO USUARIOS
@@ -58,7 +64,14 @@ def register():
             flash('El correo ya está registrado.', 'warning')
             return redirect(url_for('auth.register'))
 
-        nuevo_usuario = Usuario(nombre=nombre, correo=correo, rol='cliente')
+        from models.rol_model import Rol  # Importación para evitar ciclos
+        rol_cliente = Rol.query.filter_by(nombre='cliente').first()
+
+        if not rol_cliente:
+            flash('Error interno: rol "cliente" no está configurado.', 'danger')
+            return redirect(url_for('auth.register'))
+
+        nuevo_usuario = Usuario(nombre=nombre, correo=correo, rol=rol_cliente)
         nuevo_usuario.set_password(contraseña)
 
         db.session.add(nuevo_usuario)

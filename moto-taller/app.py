@@ -5,7 +5,8 @@ from flask import Flask, render_template
 # Importa los blueprints (controladores)
 from controllers.cliente_controller import cliente_bp
 from controllers.orden_controller import orden_bp
-from controllers.auth_controller import auth  # ← Cambiado a "auth"
+from controllers.auth_controller import auth
+from controllers.dashboard_controller import dashboard  # ← Nuevo import
 
 # Importa la instancia de SQLAlchemy
 from database.db_config import db
@@ -26,7 +27,8 @@ def create_app():
     # Registro de Blueprints
     app.register_blueprint(cliente_bp, url_prefix='/clientes')
     app.register_blueprint(orden_bp, url_prefix='/ordenes')
-    app.register_blueprint(auth, url_prefix='/auth')  # ← Registro del blueprint auth
+    app.register_blueprint(auth, url_prefix='/auth')
+    app.register_blueprint(dashboard, url_prefix='/dashboard')  # ← Registro del dashboard
 
     # Página principal (landing page)
     @app.route('/')

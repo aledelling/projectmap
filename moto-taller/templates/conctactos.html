@@ -1,0 +1,783 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contacto - Taller Mecánico de Motocicletas</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            padding: 40px;
+            width: 100%;
+            max-width: 800px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #ff6b6b, #4ecdc4, #45b7d1);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            color: #2c3e50;
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .header p {
+            color: #7f8c8d;
+            font-size: 1.1rem;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+            position: relative;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #34495e;
+            font-weight: 600;
+            font-size: 0.95rem;
+            transition: color 0.3s ease;
+        }
+
+        .form-group.required label::after {
+            content: " *";
+            color: #e74c3c;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 15px 20px;
+            border: 2px solid #e1e8ed;
+            border-radius: 12px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background: #ffffff;
+            color: #2c3e50;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .form-control:invalid {
+            border-color: #e74c3c;
+        }
+
+        .form-control:valid {
+            border-color: #27ae60;
+        }
+
+        .error-message {
+            color: #e74c3c;
+            font-size: 0.85rem;
+            margin-top: 5px;
+            display: none;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .form-group.error .error-message {
+            display: block;
+            opacity: 1;
+        }
+
+        .form-group.error .form-control {
+            border-color: #e74c3c;
+            box-shadow: 0 0 0 3px rgba(231, 76, 60, 0.1);
+        }
+
+        .btn-container {
+            text-align: center;
+            margin-top: 35px;
+        }
+
+        .btn-submit {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 18px 40px;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 15px rgba(102, 126, 234, 0.3);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .btn-submit:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 25px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-submit:active {
+            transform: translateY(-1px);
+        }
+
+        .btn-submit:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: 0 8px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        .success-message, .error-message-global {
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+            margin-bottom: 20px;
+            display: none;
+            opacity: 0;
+            transition: all 0.5s ease;
+        }
+
+        .success-message {
+            background: linear-gradient(135deg, #27ae60, #2ecc71);
+            color: white;
+        }
+
+        .error-message-global {
+            background: linear-gradient(135deg, #e74c3c, #c0392b);
+            color: white;
+        }
+
+        .success-message.show, .error-message-global.show {
+            display: block;
+            opacity: 1;
+        }
+
+        .delete-message {
+            background: linear-gradient(135deg, #e74c3c, #c0392b);
+            color: white;
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+            margin-bottom: 20px;
+            display: none;
+            opacity: 0;
+            transition: all 0.5s ease;
+        }
+
+        .delete-message.show {
+            display: block;
+            opacity: 1;
+        }
+
+        .contacts-list {
+            margin-top: 40px;
+            padding-top: 30px;
+            border-top: 2px solid #ecf0f1;
+        }
+
+        .contacts-list h3 {
+            color: #2c3e50;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .contact-card {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 15px;
+            border-left: 4px solid #667eea;
+            transition: all 0.3s ease;
+            position: relative;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+
+        .contact-card:hover {
+            transform: translateX(5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .contact-info-section {
+            flex: 1;
+        }
+
+        .contact-name {
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 5px;
+        }
+
+        .contact-info {
+            color: #7f8c8d;
+            font-size: 0.9rem;
+            margin-bottom: 3px;
+        }
+
+        .contact-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .btn-delete {
+            background: linear-gradient(135deg, #e74c3c, #c0392b);
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 3px 8px rgba(231, 76, 60, 0.3);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .btn-delete:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 12px rgba(231, 76, 60, 0.4);
+        }
+
+        .btn-delete:active {
+            transform: translateY(0);
+        }
+
+        .contact-counter {
+            text-align: center;
+            margin-bottom: 15px;
+            color: #7f8c8d;
+            font-weight: 500;
+        }
+
+        .confirmation-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .confirmation-modal.show {
+            display: flex;
+            opacity: 1;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            max-width: 400px;
+            width: 90%;
+            transform: scale(0.9);
+            transition: transform 0.3s ease;
+        }
+
+        .confirmation-modal.show .modal-content {
+            transform: scale(1);
+        }
+
+        .modal-title {
+            color: #2c3e50;
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+
+        .modal-message {
+            color: #7f8c8d;
+            margin-bottom: 25px;
+            line-height: 1.5;
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+        }
+
+        .btn-confirm {
+            background: linear-gradient(135deg, #e74c3c, #c0392b);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-cancel {
+            background: #95a5a6;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-confirm:hover, .btn-cancel:hover {
+            transform: translateY(-2px);
+        }
+
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255,255,255,.3);
+            border-radius: 50%;
+            border-top-color: #fff;
+            animation: spin 1s ease-in-out infinite;
+            margin-right: 10px;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .fade-out {
+            animation: fadeOut 0.3s ease-out forwards;
+        }
+
+        @keyframes fadeOut {
+            from {
+                opacity: 1;
+                transform: translateX(0);
+            }
+            to {
+                opacity: 0;
+                transform: translateX(-20px);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                margin: 10px;
+                padding: 30px 20px;
+            }
+
+            .header h1 {
+                font-size: 2rem;
+            }
+
+            .form-control {
+                padding: 12px 15px;
+            }
+
+            .btn-submit {
+                padding: 15px 35px;
+                font-size: 1rem;
+            }
+
+            .contact-card {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .contact-actions {
+                flex-direction: row;
+                justify-content: flex-end;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Contacto Taller</h1>
+            <p>Regístrate y mantente conectado con nosotros</p>
+        </div>
+
+        <div class="success-message" id="successMessage">
+            ¡Contacto registrado exitosamente! Nos pondremos en contacto contigo pronto.
+        </div>
+
+        <div class="error-message-global" id="errorMessage">
+            <!-- Mensajes de error se mostrarán aquí -->
+        </div>
+
+        <div class="delete-message" id="deleteMessage">
+            Contacto eliminado correctamente.
+        </div>
+
+        <form id="contactForm" novalidate>
+            <div class="form-group required">
+                <label for="nombreCompleto">Nombre Completo</label>
+                <input type="text" id="nombreCompleto" name="nombreCompleto" class="form-control" 
+                       placeholder="Ingresa tu nombre completo" required>
+                <div class="error-message">Por favor ingresa tu nombre completo</div>
+            </div>
+
+            <div class="form-group required">
+                <label for="telefono">Teléfono</label>
+                <input type="tel" id="telefono" name="telefono" class="form-control" 
+                       placeholder="Ej: +57 300 123 4567" required>
+                <div class="error-message">Por favor ingresa un número de teléfono válido</div>
+            </div>
+
+            <div class="form-group">
+                <label for="email">Email (Opcional)</label>
+                <input type="email" id="email" name="email" class="form-control" 
+                       placeholder="ejemplo@correo.com">
+                <div class="error-message">Por favor ingresa un email válido</div>
+            </div>
+
+            <div class="form-group">
+                <label for="direccion">Dirección (Opcional)</label>
+                <input type="text" id="direccion" name="direccion" class="form-control" 
+                       placeholder="Calle, carrera, número">
+            </div>
+
+
+
+            <div class="form-group">
+                <label for="comentarios">Comentarios Adicionales</label>
+                <textarea id="comentarios" name="comentarios" class="form-control" rows="4" 
+                          placeholder="Cuéntanos sobre tu motocicleta o el servicio que necesitas..."></textarea>
+            </div>
+
+            <div class="btn-container">
+                <button type="submit" class="btn-submit" id="submitBtn">
+                    Registrar Contacto
+                </button>
+            </div>
+        </form>
+
+        <!-- Lista de contactos -->
+        <div class="contacts-list" id="contactsList">
+            <h3>Contactos Registrados</h3>
+            <div class="contact-counter" id="contactCounter">
+                Total de contactos: 0
+            </div>
+            <div id="contactsContainer">
+                <!-- Los contactos se mostrarán aquí -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de confirmación -->
+    <div class="confirmation-modal" id="confirmationModal">
+        <div class="modal-content">
+            <div class="modal-title">Confirmar Eliminación</div>
+            <div class="modal-message" id="modalMessage">
+                ¿Estás seguro de que quieres eliminar este contacto?
+            </div>
+            <div class="modal-actions">
+                <button class="btn-confirm" id="confirmDelete">Eliminar</button>
+                <button class="btn-cancel" id="cancelDelete">Cancelar</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Array para almacenar los contactos
+        let contacts = [];
+        let contactToDelete = null;
+
+        // Elementos del DOM
+        const contactForm = document.getElementById('contactForm');
+        const submitBtn = document.getElementById('submitBtn');
+        const successMessage = document.getElementById('successMessage');
+        const errorMessage = document.getElementById('errorMessage');
+        const deleteMessage = document.getElementById('deleteMessage');
+        const contactsContainer = document.getElementById('contactsContainer');
+        const contactCounter = document.getElementById('contactCounter');
+        const confirmationModal = document.getElementById('confirmationModal');
+        const confirmDeleteBtn = document.getElementById('confirmDelete');
+        const cancelDeleteBtn = document.getElementById('cancelDelete');
+        const modalMessage = document.getElementById('modalMessage');
+
+        // Función para generar ID único
+        function generateId() {
+            return Date.now().toString(36) + Math.random().toString(36).substr(2);
+        }
+
+        // Función para validar teléfono
+        function validatePhone(phone) {
+            const phoneRegex = /^[\+]?[\d\s\-\(\)]{7,15}$/;
+            return phoneRegex.test(phone.trim());
+        }
+
+        // Función para validar email
+        function validateEmail(email) {
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return emailRegex.test(email.trim());
+        }
+
+        // Función para mostrar mensajes
+        function showMessage(element, message = '', duration = 3000) {
+            if (message) {
+                element.textContent = message;
+            }
+            element.classList.add('show');
+            setTimeout(() => {
+                element.classList.remove('show');
+            }, duration);
+        }
+
+        // Función para validar formulario
+        function validateForm() {
+            const formData = new FormData(contactForm);
+            let isValid = true;
+            const errors = [];
+
+            // Limpiar errores previos
+            document.querySelectorAll('.form-group').forEach(group => {
+                group.classList.remove('error');
+            });
+
+            // Validar nombre completo
+            const nombreCompleto = formData.get('nombreCompleto').trim();
+            if (!nombreCompleto) {
+                document.querySelector('#nombreCompleto').closest('.form-group').classList.add('error');
+                errors.push('Nombre completo es requerido');
+                isValid = false;
+            }
+
+            // Validar teléfono
+            const telefono = formData.get('telefono').trim();
+            if (!telefono) {
+                document.querySelector('#telefono').closest('.form-group').classList.add('error');
+                errors.push('Teléfono es requerido');
+                isValid = false;
+            } else if (!validatePhone(telefono)) {
+                document.querySelector('#telefono').closest('.form-group').classList.add('error');
+                errors.push('Formato de teléfono inválido');
+                isValid = false;
+            }
+
+            // Validar email si se proporciona
+            const email = formData.get('email').trim();
+            if (email && !validateEmail(email)) {
+                document.querySelector('#email').closest('.form-group').classList.add('error');
+                errors.push('Formato de email inválido');
+                isValid = false;
+            }
+
+            // Verificar si el teléfono ya existe
+            if (telefono && contacts.some(contact => contact.telefono === telefono)) {
+                document.querySelector('#telefono').closest('.form-group').classList.add('error');
+                errors.push('Este número de teléfono ya está registrado');
+                isValid = false;
+            }
+
+            if (!isValid) {
+                showMessage(errorMessage, errors.join('. '));
+            }
+
+            return isValid;
+        }
+
+        // Función para agregar contacto
+        function addContact(contactData) {
+            const newContact = {
+                id: generateId(),
+                nombreCompleto: contactData.nombreCompleto.trim(),
+                telefono: contactData.telefono.trim(),
+                email: contactData.email ? contactData.email.trim() : '',
+                direccion: contactData.direccion ? contactData.direccion.trim() : '',
+                comentarios: contactData.comentarios ? contactData.comentarios.trim() : '',
+                fechaRegistro: new Date()
+            };
+
+            contacts.push(newContact);
+            renderContacts();
+            showMessage(successMessage);
+            contactForm.reset();
+        }
+
+        // Función para eliminar contacto
+        function deleteContact(contactId) {
+            const contactIndex = contacts.findIndex(contact => contact.id === contactId);
+            if (contactIndex !== -1) {
+                const contactCard = document.querySelector(`[data-contact-id="${contactId}"]`);
+                if (contactCard) {
+                    contactCard.classList.add('fade-out');
+                    setTimeout(() => {
+                        contacts.splice(contactIndex, 1);
+                        renderContacts();
+                        showMessage(deleteMessage);
+                    }, 300);
+                } else {
+                    contacts.splice(contactIndex, 1);
+                    renderContacts();
+                    showMessage(deleteMessage);
+                }
+            }
+        }
+
+        // Función para renderizar contactos
+        function renderContacts() {
+            contactCounter.textContent = `Total de contactos: ${contacts.length}`;
+            
+            if (contacts.length === 0) {
+                contactsContainer.innerHTML = `
+                    <div style="text-align: center; padding: 40px; color: #7f8c8d;">
+                        <p>No hay contactos registrados aún.</p>
+                        <p>¡Registra el primer contacto usando el formulario!</p>
+                    </div>
+                `;
+                return;
+            }
+
+            contactsContainer.innerHTML = contacts.map(contact => `
+                <div class="contact-card" data-contact-id="${contact.id}">
+                    <div class="contact-info-section">
+                        <div class="contact-name">${contact.nombreCompleto}</div>
+                        <div class="contact-info">📞 ${contact.telefono}</div>
+                        ${contact.email ? `<div class="contact-info">📧 ${contact.email}</div>` : ''}
+                        ${contact.direccion ? `<div class="contact-info">📍 ${contact.direccion}</div>` : ''}
+                        ${contact.comentarios ? `<div class="contact-info">💬 ${contact.comentarios}</div>` : ''}
+                        <div class="contact-info">📅 ${contact.fechaRegistro.toLocaleDateString('es-ES')}</div>
+                    </div>
+                    <div class="contact-actions">
+                        <button class="btn-delete" onclick="showDeleteConfirmation('${contact.id}', '${contact.nombreCompleto}')">
+                            Eliminar
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Función para mostrar confirmación de eliminación
+        function showDeleteConfirmation(contactId, contactName) {
+            contactToDelete = contactId;
+            modalMessage.textContent = `¿Estás seguro de que quieres eliminar el contacto de ${contactName}?`;
+            confirmationModal.classList.add('show');
+        }
+
+        // Función para ocultar modal de confirmación
+        function hideDeleteConfirmation() {
+            confirmationModal.classList.remove('show');
+            contactToDelete = null;
+        }
+
+        // Event listeners
+        contactForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            if (!validateForm()) {
+                return;
+            }
+
+            // Simular loading
+            const originalText = submitBtn.textContent;
+            submitBtn.innerHTML = '<span class="loading"></span>Registrando...';
+            submitBtn.disabled = true;
+
+            setTimeout(() => {
+                const formData = new FormData(contactForm);
+                const contactData = Object.fromEntries(formData.entries());
+                addContact(contactData);
+                
+                submitBtn.textContent = originalText;
+                submitBtn.disabled = false;
+            }, 1000);
+        });
+
+        // Event listeners para validación en tiempo real
+        document.getElementById('nombreCompleto').addEventListener('blur', function() {
+            const formGroup = this.closest('.form-group');
+            if (this.value.trim()) {
+                formGroup.classList.remove('error');
+            }
+        });
+
+        document.getElementById('telefono').addEventListener('blur', function() {
+            const formGroup = this.closest('.form-group');
+            if (this.value.trim() && validatePhone(this.value.trim())) {
+                formGroup.classList.remove('error');
+            }
+        });
+
+        document.getElementById('email').addEventListener('blur', function() {
+            const formGroup = this.closest('.form-group');
+            if (!this.value.trim() || validateEmail(this.value.trim())) {
+                formGroup.classList.remove('error');
+            }
+        });
+
+        // Event listeners para modal de confirmación
+        confirmDeleteBtn.addEventListener('click', function() {
+            if (contactToDelete) {
+                deleteContact(contactToDelete);
+                hideDeleteConfirmation();
+            }
+        });
+
+        cancelDeleteBtn.addEventListener('click', hideDeleteConfirmation);
+
+        // Cerrar modal al hacer clic fuera
+        confirmationModal.addEventListener('click', function(e) {
+            if (e.target === confirmationModal) {
+                hideDeleteConfirmation();
+            }
+        });
+
+        // Cerrar modal con Escape
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' && confirmationModal.classList.contains('show')) {
+                hideDeleteConfirmation();
+            }
+        });
+
+        // Inicializar la aplicación
+        document.addEventListener('DOMContentLoaded', function() {
+            renderContacts();
+        });
+
+        // Función global para eliminar contacto (llamada desde HTML)
+        window.showDeleteConfirmation = showDeleteConfirmation;
+    </script>
+</body>
+</html>

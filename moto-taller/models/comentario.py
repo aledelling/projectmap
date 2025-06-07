@@ -1,5 +1,8 @@
+
 from flask_sqlalchemy import SQLAlchemy
-from app import db  # Asegúrate de que esté importado desde donde defines `db`
+
+
+db = SQLAlchemy()
 
 class Comentario(db.Model):
     __tablename__ = 'comentarios'

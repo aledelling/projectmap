@@ -3,6 +3,7 @@ from models.factura import Factura
 from datetime import datetime
 from io import BytesIO
 from reportlab.pdfgen import canvas
+from database.db_config import db
 
 factura_bp = Blueprint('factura', __name__)
 factura_model = Factura()

@@ -1,6 +1,7 @@
 # app.py
 
 from flask import Flask, render_template
+from database.db_config import db
 
 # Importa los blueprints (controladores)
 from controllers.cliente_controller import cliente_bp
@@ -11,7 +12,7 @@ from controllers.encuesta_controller import comentario_bp
 from controllers.factura_controller import factura_bp
 
 # Importa la instancia de SQLAlchemy
-from database.db_config import db
+
 
 # Importa la clase de configuración
 from config.config import Config

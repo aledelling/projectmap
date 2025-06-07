@@ -1,5 +1,6 @@
 from flask import Blueprint, render_template, request, redirect, url_for
 from models.comentario import Comentario
+from database.db_config import db
 
 comentario_bp = Blueprint('comentario', __name__)
 comentario_model = Comentario()

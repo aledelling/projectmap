@@ -41,6 +41,18 @@
                     <span>Servicios</span>
                 </a>
 
+                <!-- Administrador y Asesor pueden gestionar Factura -->
+                {% if session['rol'] in ['administrador', 'asesor'] %}
+                <a href="#" id="menu-facturacion" class="nav-link active" data-section="factura">
+                    <i class="fas fa-file-invoice"></i>
+                    <span>Facturación</span>
+                </a>
+
+                {% endif %}
+
+
+
+
                 <!-- Solo el Administrador puede ver reportes -->
                 <a href="#" class="nav-link" data-section="reportes">
                     <i class="fas fa-chart-bar"></i>
@@ -152,6 +164,31 @@
                 </header>
             </section>
 
+             <!-- Sección: Facturación -->
+            {% if session['rol'] in ['administrador', 'asesor'] %}
+            <section class="content-section hidden" id="factura-section">
+                <header class="content-header">
+                    <h1>Generar Factura</h1>
+                     <form method="POST">
+                        <label for="orden_id">Orden:</label>
+                         <select name="orden_id" required>
+            {% for orden in ordenes %}
+                <option value="{{ orden.id }}">Orden #{{ orden.id }} - {{ orden.cliente }} ({{ orden.placa }})</option>
+            {% endfor %}
+             </select>
+
+        <label for="subtotal">Subtotal:</label>
+        <input type="number" step="0.01" name="subtotal" required>
+
+        <button type="submit">Generar Factura</button>
+
+           
+    </form>
+                </header>
+            </section>
+            {% endif %}
+
+
             <!-- Sección: Reportes -->
             <section class="content-section hidden" id="reportes-section">
                 <header class="content-header">
@@ -170,7 +207,27 @@
             {% endif %}
         </main>
     </div>
+    <script>
+    document.querySelectorAll('.sidebar-nav .nav-link').forEach(link => {
+        link.addEventListener('click', function (e) {
+            e.preventDefault();
 
+            // Ocultar todas las secciones
+            document.querySelectorAll('.content-section').forEach(section => {
+                section.classList.add('hidden');
+            });
+
+            // Mostrar la sección correspondiente al data-section
+            const targetId = this.getAttribute('data-section') + '-section';
+            const targetSection = document.getElementById(targetId);
+            if (targetSection) {
+                targetSection.classList.remove('hidden');
+            }
+        });
+    });
+</script>
     <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+
+    
 </body>
 </html>

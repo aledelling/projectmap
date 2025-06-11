@@ -34,6 +34,11 @@
                 </a>
                 {% endif %}
 
+                    <a href="#" class="nav-link" data-section="encuesta">
+                       <i class="fas fa-comments"></i>
+                       <span>Encuesta</span>
+                    </a>
+
                 <!-- Solo el Administrador puede gestionar servicios -->
                 {% if session['rol'] == 'administrador' %}
                 <a href="#" class="nav-link" data-section="servicios">
@@ -50,6 +55,14 @@
 
                 {% endif %}
 
+
+                <!-- Solo el Administrador puede gestionar inventario -->
+                {% if session['rol'] == 'administrador' %}
+                <a href="#" class="nav-link" data-section="inventario">
+                <i class="fas fa-boxes"></i>
+                <span>Inventario</span>
+                </a>
+                {% endif %}
 
 
 
@@ -204,6 +217,50 @@
                 </header>
             </section>
 
+   <!-- Sección: Inventario -->
+{% if session['rol'] in ['administrador', 'asesor'] %}
+<section class="content-section hidden" id="inventario-section">
+    <header class="content-header">
+        <h1>Gestión de Inventario</h1>
+        <form method="POST">
+            <label for="producto">Nombre :</label>
+            <input type="text" name="Nombre" id="Nombre" required>
+
+            <label for="cantidad">Referencia:</label>
+            <input type="number" name="Referencia" id="Referencia" required min="1">
+
+            <label for="precio"> Cantidad :</label>
+            <input type="number" step="0.01" name="Cantidad" id="Cantidad" required>
+
+             <label for="precio"> Precio :</label>
+            <input type="number" step="0.01" name="precio" id="precio" required>
+
+
+            <button type="submit">Agregar al Inventario</button>
+        </form>
+    </header>
+</section>
+{% endif %}
+
+<!-- Sección: Reportes -->
+<section class="content-section hidden" id="reportes-section">
+    <header class="content-header">
+        <h1><i class="fas fa-chart-bar"></i> Reportes</h1>
+        <!-- Contenido interno de reportes... -->
+    </header>
+</section>
+
+<!-- Sección: Configuración -->
+<section class="content-section hidden" id="configuracion-section">
+    <header class="content-header">
+        <h1><i class="fas fa-cog"></i> Configuración</h1>
+        <!-- Contenido interno de configuración... -->
+    </header>
+</section>
+
+</main>
+</div>
+
              <!-- Sección: Facturación -->
             {% if session['rol'] in ['administrador', 'asesor'] %}
             <section class="content-section hidden" id="factura-section">
@@ -247,7 +304,310 @@
             {% endif %}
         </main>
     </div>
+     <!-- Sección: Encuesta de Satisfacción -->
+<section class="content-section hidden" id="encuesta-section">
+    <header class="content-header">
+        <h1><i class="fas fa-comments"></i> Encuesta de Satisfacción</h1>
+         <h2>FORMULARIO DE SATISFACCION</h2>
+    <form action="" method="post">
+        <label>Nombre:</label><br>
+        <input type="text" name="nombre" required><br><br>
+
+        <label>Correo:</label><br>
+        <input type="email" name="correo" required><br><br>
+
+        <label>¿Encontraste fácilmente la información que buscabas?</label><br>
+        <select name="p1">
+            <option value="1">Si</option>
+            <option value="2">No</option>
+        </select><br><br>
+
+        <label>¿Qué tan satisfecho estás con tu experiencia?</label><br>
+        <select name="p2">
+            <option value="1">Muy Malo</option>
+            <option value="2">Malo</option>
+            <option value="3">Regular</option>
+            <option value="4">Bueno</option>
+            <option value="5">Excelente</option>
+        </select><br><br>
+
+        <label>¿Qué te parece el diseño visual?</label><br>
+        <select name="p3">
+            <option value="1">Muy Malo</option>
+            <option value="2">Malo</option>
+            <option value="3">Regular</option>
+            <option value="4">Bueno</option>
+            <option value="5">Excelente</option>
+        </select><br><br>
+
+        <label>¿El proceso de compra fue claro y sencillo?</label><br>
+        <select name="p4">
+            <option value="SI">Sí</option>
+            <option value="NO">No</option>
+        </select><br><br>
+
+        <label>¿Cuánto recomendarías nuestro sitio (1-10)?</label><br>
+        <select name="p5">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+            <option value="6">6</option>
+            <option value="7">7</option>
+            <option value="8">8</option>
+            <option value="9">9</option>
+            <option value="10">10</option>
+        </select><br><br>
+
+        <label>¿Por qué recomendarías nuestros servicios?</label><br>
+        <textarea name="comentario1"></textarea><br><br>
+
+        <label>¿Qué podríamos mejorar?</label><br>
+        <textarea name="comentario2"></textarea><br><br>
+
+        <input type="submit" style="color: red;" value="Enviar">
+    </form>
+    </header>
+   
+</section>
+
     <script>
+        // Variables globales
+        let repuestos = [];
+        let searchTimeout;
+        let nextId = 1;
+
+        // Datos de demostración
+        const datosDemo = [
+            { id: 1, nombre: "Filtro de Aceite", marca: "Honda", referencia: "15410-MEN-A01", cantidad: 25, precio: 15000 },
+            { id: 2, nombre: "Pastillas de Freno", marca: "Yamaha", referencia: "5SL-W0045-00", cantidad: 8, precio: 45000 },
+            { id: 3, nombre: "Cadena 428", marca: "DID", referencia: "428HD-120", cantidad: 0, precio: 85000 },
+            { id: 4, nombre: "Bujía", marca: "NGK", referencia: "CR8E", cantidad: 50, precio: 12000 },
+            { id: 5, nombre: "Aceite 4T", marca: "Castrol", referencia: "15W40-1L", cantidad: 15, precio: 18000 }
+        ];
+
+        // Cargar datos de demostración al inicio
+        function cargarDatosDemo() {
+            repuestos = [...datosDemo];
+            nextId = Math.max(...repuestos.map(r => r.id)) + 1;
+        }
+
+        // Mostrar alerta
+        function mostrarAlerta(mensaje, tipo) {
+            const alert = document.getElementById('alert');
+            alert.textContent = mensaje;
+            alert.className = `alert alert-${tipo}`;
+            alert.style.display = 'block';
+            
+            setTimeout(() => {
+                alert.style.display = 'none';
+            }, 3000);
+        }
+
+        // Calcular estadísticas
+        function calcularEstadisticas() {
+            const stats = {
+                total_repuestos: repuestos.length,
+                stock_bajo: repuestos.filter(r => r.cantidad > 0 && r.cantidad < 10).length,
+                sin_stock: repuestos.filter(r => r.cantidad === 0).length,
+                valor_total: repuestos.reduce((total, r) => total + (r.cantidad * r.precio), 0)
+            };
+
+            document.getElementById('totalRepuestos').textContent = stats.total_repuestos;
+            document.getElementById('stockBajo').textContent = stats.stock_bajo;
+            document.getElementById('sinStock').textContent = stats.sin_stock;
+            document.getElementById('valorTotal').textContent = new Intl.NumberFormat('es-CO', {
+                style: 'currency',
+                currency: 'COP'
+            }).format(stats.valor_total);
+        }
+
+        // Cargar repuestos (simulación de API)
+        function cargarRepuestos(search = '') {
+            document.getElementById('loadingIndicator').style.display = 'block';
+            document.getElementById('inventoryTable').style.display = 'none';
+            document.getElementById('emptyState').style.display = 'none';
+            
+            // Simular delay de red
+            setTimeout(() => {
+                let repuestosFiltrados = repuestos;
+                
+                if (search) {
+                    const searchLower = search.toLowerCase();
+                    repuestosFiltrados = repuestos.filter(r => 
+                        r.nombre.toLowerCase().includes(searchLower) ||
+                        r.marca.toLowerCase().includes(searchLower) ||
+                        r.referencia.toLowerCase().includes(searchLower)
+                    );
+                }
+                
+                renderizarTabla(repuestosFiltrados);
+                calcularEstadisticas();
+                
+                document.getElementById('loadingIndicator').style.display = 'none';
+                
+                if (repuestosFiltrados.length === 0) {
+                    document.getElementById('emptyState').style.display = 'block';
+                    document.getElementById('inventoryTable').style.display = 'none';
+                } else {
+                    document.getElementById('inventoryTable').style.display = 'table';
+                }
+            }, 300);
+        }
+
+        // Renderizar tabla
+        function renderizarTabla(repuestosAMostrar = repuestos) {
+            const tbody = document.getElementById('repuestosTableBody');
+            tbody.innerHTML = '';
+
+            repuestosAMostrar.forEach(repuesto => {
+                const row = document.createElement('tr');
+                
+                // Agregar clases para indicar stock
+                if (repuesto.cantidad === 0) {
+                    row.classList.add('out-of-stock');
+                } else if (repuesto.cantidad < 10) {
+                    row.classList.add('low-stock');
+                }
+
+                row.innerHTML = `
+                    <td>${repuesto.id}</td>
+                    <td>${repuesto.nombre}</td>
+                    <td>${repuesto.marca}</td>
+                    <td>${repuesto.referencia}</td>
+                    <td>${repuesto.cantidad}</td>
+                    <td>${new Intl.NumberFormat('es-CO', { style: 'currency', currency: 'COP' }).format(repuesto.precio)}</td>
+                    <td>${new Intl.NumberFormat('es-CO', { style: 'currency', currency: 'COP' }).format(repuesto.cantidad * repuesto.precio)}</td>
+                    <td>
+                        <button class="btn btn-edit" onclick="editarRepuesto(${repuesto.id})">Editar</button>
+                        <button class="btn btn-danger" onclick="eliminarRepuesto(${repuesto.id})">Eliminar</button>
+                    </td>
+                `;
+                tbody.appendChild(row);
+            });
+        }
+
+        // Manejar formulario
+        function manejarFormulario(e) {
+            e.preventDefault();
+            
+            const formData = new FormData(e.target);
+            const repuesto = {
+                nombre: formData.get('nombre').trim(),
+                marca: formData.get('marca').trim(),
+                referencia: formData.get('referencia').trim(),
+                cantidad: parseInt(formData.get('cantidad')),
+                precio: parseFloat(formData.get('precio'))
+            };
+
+            // Validaciones
+            if (!repuesto.nombre || !repuesto.marca || !repuesto.referencia) {
+                mostrarAlerta('Todos los campos son requeridos', 'error');
+                return;
+            }
+
+            const editId = document.getElementById('editId').value;
+
+            try {
+                if (editId) {
+                    // Actualizar repuesto existente
+                    const index = repuestos.findIndex(r => r.id === parseInt(editId));
+                    if (index !== -1) {
+                        repuestos[index] = { ...repuesto, id: parseInt(editId) };
+                        mostrarAlerta('Repuesto actualizado exitosamente', 'success');
+                    }
+                } else {
+                    // Verificar si ya existe la referencia
+                    if (repuestos.find(r => r.referencia === repuesto.referencia)) {
+                        mostrarAlerta('Ya existe un repuesto con esa referencia', 'error');
+                        return;
+                    }
+                    
+                    // Crear nuevo repuesto
+                    repuesto.id = nextId++;
+                    repuestos.push(repuesto);
+                    mostrarAlerta('Repuesto agregado exitosamente', 'success');
+                }
+
+                e.target.reset();
+                if (editId) {
+                    cancelEdit();
+                }
+                cargarRepuestos();
+            } catch (error) {
+                console.error('Error:', error);
+                mostrarAlerta('Error al procesar la solicitud', 'error');
+            }
+        }
+
+        // Editar repuesto
+        function editarRepuesto(id) {
+            const repuesto = repuestos.find(r => r.id === id);
+            if (repuesto) {
+                document.getElementById('editId').value = repuesto.id;
+                document.getElementById('nombre').value = repuesto.nombre;
+                document.getElementById('marca').value = repuesto.marca;
+                document.getElementById('referencia').value = repuesto.referencia;
+                document.getElementById('cantidad').value = repuesto.cantidad;
+                document.getElementById('precio').value = repuesto.precio;
+                
+                document.getElementById('submitBtn').textContent = 'Actualizar Repuesto';
+                document.getElementById('cancelBtn').style.display = 'inline-block';
+                
+                // Scroll al formulario
+                document.querySelector('.form-section').scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+
+        // Cancelar edición
+        function cancelEdit() {
+            document.getElementById('editId').value = '';
+            document.getElementById('repuestoForm').reset();
+            document.getElementById('submitBtn').textContent = 'Agregar Repuesto';
+            document.getElementById('cancelBtn').style.display = 'none';
+        }
+
+        // Eliminar repuesto
+        function eliminarRepuesto(id) {
+            if (confirm('¿Estás seguro de que quieres eliminar este repuesto?')) {
+                try {
+                    const index = repuestos.findIndex(r => r.id === id);
+                    if (index !== -1) {
+                        repuestos.splice(index, 1);
+                        mostrarAlerta('Repuesto eliminado exitosamente', 'success');
+                        cargarRepuestos();
+                    }
+                } catch (error) {
+                    console.error('Error:', error);
+                    mostrarAlerta('Error al eliminar el repuesto', 'error');
+                }
+            }
+        }
+
+        // Filtrar repuestos
+        function filtrarRepuestos() {
+            clearTimeout(searchTimeout);
+            searchTimeout = setTimeout(() => {
+                const searchTerm = document.getElementById('searchInput').value;
+                cargarRepuestos(searchTerm);
+            }, 300);
+        }
+
+        // Event listeners
+        document.getElementById('repuestoForm').addEventListener('submit', manejarFormulario);
+        document.getElementById('searchInput').addEventListener('input', filtrarRepuestos);
+
+        // Inicializar aplicación
+        document.addEventListener('DOMContentLoaded', function() {
+            cargarDatosDemo();
+            cargarRepuestos();
+            mostrarAlerta('Sistema de inventario cargado correctamente', 'success');
+        });
+    </script>
+</body>
+</html>
+    <script>   
     document.querySelectorAll('.sidebar-nav .nav-link').forEach(link => {
         link.addEventListener('click', function (e) {
             e.preventDefault();

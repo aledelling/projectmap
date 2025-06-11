@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nueva Orden - Moto-Taller</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="dashboard-container">
+        <aside class="sidebar">
+            <div class="logo">
+                <i class="fas fa-motorcycle"></i>
+                <span>Moto-Taller</span>
+            </div>
+            <nav class="sidebar-nav">
+                <a href="{{ url_for('dashboard.admin_dashboard') }}" class="nav-link">
+                    <i class="fas fa-arrow-left"></i>
+                    <span>Volver al Panel</span>
+                </a>
+            </nav>
+        </aside>
+
+        <main class="main-content">
+            <section class="content-section" id="nueva-orden-section">
+                <header class="content-header">
+                    <h1><i class="fas fa-plus"></i> Registrar Nueva Orden</h1>
+                </header>
+
+                <div class="card">
+                <form action="{{ url_for('orden.nueva_orden') }}" method="POST" class="form">
+                        <div class="form-group">
+                            <label for="cliente_id">Cliente:</label>
+                            <select name="cliente_id" required>
+                                {% for cliente in clientes %}
+                                <option value="{{ cliente.id }}">{{ cliente.nombre }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="moto_id">Moto:</label>
+                            <select name="moto_id" required>
+                                {% for moto in motos %}
+                                <option value="{{ moto.id }}">{{ moto.placa }} - {{ moto.modelo }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="tecnico_id">Técnico:</label>
+                            <select name="tecnico_id" required>
+                                {% for tecnico in tecnicos %}
+                                <option value="{{ tecnico.id }}">{{ tecnico.nombre }} - {{ tecnico.especialidad }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="descripcion">Descripción:</label>
+                            <textarea name="descripcion" rows="4" required></textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="fecha_entrada">Fecha de Entrada:</label>
+                            <input type="date" name="fecha_entrada" required>
+                        </div>
+
+                        <div class="form-actions">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-save"></i> Guardar Orden
+                            </button>
+                            <a href="{{ url_for('dashboard.admin_dashboard') }}" class="btn btn-secondary">Cancelar</a>
+                        </div>
+                    </form>
+                </div>
+            </section>
+        </main>
+    </div>
+</body>
+</html>

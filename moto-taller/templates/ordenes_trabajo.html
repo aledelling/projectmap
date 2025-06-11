@@ -1,0 +1,24 @@
+<form action="{{ url_for('orden_bp.nueva_orden') }}" method="POST">
+  <select name="cliente_id" required>
+    {% for cliente in clientes %}
+      <option value="{{ cliente.id }}">{{ cliente.nombre }}</option>
+    {% endfor %}
+  </select>
+
+  <select name="moto_id" required>
+    {% for moto in motos %}
+      <option value="{{ moto.id }}">{{ moto.modelo }}</option>
+    {% endfor %}
+  </select>
+
+  <select name="tecnico_id" required>
+    {% for tecnico in tecnicos %}
+      <option value="{{ tecnico.id }}">{{ tecnico.nombre }}</option>
+    {% endfor %}
+  </select>
+
+  <textarea name="descripcion" placeholder="Descripción del problema" required></textarea>
+  <input type="date" name="fecha_entrada" required>
+
+  <button type="submit">Registrar Orden</button>
+</form>

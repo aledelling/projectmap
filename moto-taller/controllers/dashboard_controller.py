@@ -1,4 +1,5 @@
 from flask import Blueprint, render_template, session, redirect, url_for, flash
+from models.cliente import Cliente  # 👈 Importa el modelo Cliente
 
 dashboard = Blueprint('dashboard', __name__)
 
@@ -15,5 +16,11 @@ def admin_dashboard():
         flash('No tienes permiso para acceder al panel administrativo.', 'danger')
         return redirect(url_for('auth.login'))
 
-    # Renderizar el dashboard administrativo
-    return render_template('dashboard.html', rol=rol, username=session.get('username'))
+    # Consultar los datos necesarios
+    clientes = Cliente.query.all()  # 👈 Aquí obtienes los clientes desde la base de datos
+
+    # Renderizar el dashboard con los datos
+    return render_template('dashboard.html',
+                           rol=rol,
+                           username=session.get('username'),
+                           clientes=clientes)  # 👈 Pasa los clientes a la plantilla

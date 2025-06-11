@@ -34,6 +34,11 @@
                 </a>
                 {% endif %}
 
+                    <a href="#" class="nav-link" data-section="encuesta">
+                       <i class="fas fa-comments"></i>
+                       <span>Encuesta</span>
+                    </a>
+
                 <!-- Solo el Administrador puede gestionar servicios -->
                 {% if session['rol'] == 'administrador' %}
                 <a href="#" class="nav-link" data-section="servicios">
@@ -210,6 +215,74 @@
             {% endif %}
         </main>
     </div>
+     <!-- Sección: Encuesta de Satisfacción -->
+<section class="content-section hidden" id="encuesta-section">
+    <header class="content-header">
+        <h1><i class="fas fa-comments"></i> Encuesta de Satisfacción</h1>
+         <h2>FORMULARIO DE SATISFACCION</h2>
+    <form action="" method="post">
+        <label>Nombre:</label><br>
+        <input type="text" name="nombre" required><br><br>
+
+        <label>Correo:</label><br>
+        <input type="email" name="correo" required><br><br>
+
+        <label>¿Encontraste fácilmente la información que buscabas?</label><br>
+        <select name="p1">
+            <option value="1">Si</option>
+            <option value="2">No</option>
+        </select><br><br>
+
+        <label>¿Qué tan satisfecho estás con tu experiencia?</label><br>
+        <select name="p2">
+            <option value="1">Muy Malo</option>
+            <option value="2">Malo</option>
+            <option value="3">Regular</option>
+            <option value="4">Bueno</option>
+            <option value="5">Excelente</option>
+        </select><br><br>
+
+        <label>¿Qué te parece el diseño visual?</label><br>
+        <select name="p3">
+            <option value="1">Muy Malo</option>
+            <option value="2">Malo</option>
+            <option value="3">Regular</option>
+            <option value="4">Bueno</option>
+            <option value="5">Excelente</option>
+        </select><br><br>
+
+        <label>¿El proceso de compra fue claro y sencillo?</label><br>
+        <select name="p4">
+            <option value="SI">Sí</option>
+            <option value="NO">No</option>
+        </select><br><br>
+
+        <label>¿Cuánto recomendarías nuestro sitio (1-10)?</label><br>
+        <select name="p5">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+            <option value="6">6</option>
+            <option value="7">7</option>
+            <option value="8">8</option>
+            <option value="9">9</option>
+            <option value="10">10</option>
+        </select><br><br>
+
+        <label>¿Por qué recomendarías nuestros servicios?</label><br>
+        <textarea name="comentario1"></textarea><br><br>
+
+        <label>¿Qué podríamos mejorar?</label><br>
+        <textarea name="comentario2"></textarea><br><br>
+
+        <input type="submit" style="color: red;" value="Enviar">
+    </form>
+    </header>
+   
+</section>
+
     <script>
     document.querySelectorAll('.sidebar-nav .nav-link').forEach(link => {
         link.addEventListener('click', function (e) {

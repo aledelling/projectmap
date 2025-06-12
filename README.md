@@ -1,6 +1,6 @@
 # 🛠️ Plataforma de Gestión de Taller Mecánico de Motocicletas
 
-Este repositorio contiene el desarrollo de una plataforma web para la **gestión de taller mecánico de motocicletas**. Está creado por estudiantes del Técnico en Desarrollo de Software usando **Scrum** como marco de trabajo ágil. La aplicación incluye funciones como facturación, inventario, gestión de clientes, órdenes de trabajo, consulta del estado del vehículo y más.
+Este repositorio contiene el desarrollo de una plataforma web para la **gestión de taller mecánico de motocicletas**. Está creado por estudiantes del Técnico Laboral como Auxiliar de Sistemas usando **Scrum** como marco de trabajo ágil. La aplicación incluye funciones como facturación, inventario, gestión de clientes, órdenes de trabajo, consulta del estado del vehículo y más.
 
 ---
 

@@ -26,6 +26,14 @@
                 </a>
                 {% endif %}
 
+                 <!-- Solo el Administrador puede ver Contactos -->
+                {% if session['rol'] == 'administrador' %}
+                <a href="#" class="nav-link" data-section="contactos">
+                 <i class="fas fa-address-book"></i>
+                <span>Contactos</span>
+                </a>
+                {% endif %}
+
                 <!-- Administrador, Asesor y Técnico pueden ver órdenes -->
                 {% if session['rol'] in ['administrador', 'asesor', 'tecnico'] %}
                 <a href="#" class="nav-link" data-section="ordenes">
@@ -281,6 +289,50 @@
                 </header>
             </section>
 
+            <!-- Sección: Contactos -->
+{% if session['rol'] in ['administrador', 'asesor'] %}
+<section class="content-section hidden" id="contactos-section">
+    <header class="content-header">
+        <h1>Gestión de Contactos</h1>
+        <form method="POST" id="contactForm">
+            <label for="nombreCompleto">Nombre completo:</label>
+            <input type="text" name="nombreCompleto" id="nombreCompleto" required>
+
+            <label for="telefono">Teléfono:</label>
+            <input type="tel" name="telefono" id="telefono" required>
+
+            <label for="email">Correo electrónico (opcional):</label>
+            <input type="email" name="email" id="email">
+
+            <label for="direccion">Dirección (opcional):</label>
+            <input type="text" name="direccion" id="direccion">
+
+            <label for="comentarios">Comentarios (opcional):</label>
+            <textarea name="comentarios" id="comentarios" rows="3"></textarea>
+
+            <button type="submit" id="submitBtn">Registrar Contacto</button>
+        </form>
+
+        <!-- Mensajes -->
+        <div id="successMessage" class="alert success">Contacto registrado con éxito</div>
+        <div id="errorMessage" class="alert error"></div>
+        <div id="deleteMessage" class="alert warning">Contacto eliminado correctamente</div>
+
+        <!-- Contador y contenedor -->
+        <p id="contactCounter">Total de contactos: 0</p>
+        <div id="contactsContainer" class="contacts-list"></div>
+    </header>
+
+    <!-- Modal de confirmación -->
+    <div id="confirmationModal" class="modal-overlay">
+        <div class="modal-content">
+            <p id="modalMessage"></p>
+            <button id="confirmDelete" class="btn btn-danger">Sí, eliminar</button>
+            <button id="cancelDelete" class="btn btn-secondary">Cancelar</button>
+        </div>
+    </div>
+</section>
+{% endif %}
 <!-- Sección: Gestión de Facturas -->
 {% if session['rol'] in ['administrador', 'asesor'] %}
 <section class="content-section" id="factura-section">
@@ -705,6 +757,269 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 </script>
 {% endif %}
+
+ <script>
+        // Array para almacenar los contactos
+        let contacts = [];
+        let contactToDelete = null;
+
+        // Elementos del DOM
+        const contactForm = document.getElementById('contactForm');
+        const submitBtn = document.getElementById('submitBtn');
+        const successMessage = document.getElementById('successMessage');
+        const errorMessage = document.getElementById('errorMessage');
+        const deleteMessage = document.getElementById('deleteMessage');
+        const contactsContainer = document.getElementById('contactsContainer');
+        const contactCounter = document.getElementById('contactCounter');
+        const confirmationModal = document.getElementById('confirmationModal');
+        const confirmDeleteBtn = document.getElementById('confirmDelete');
+        const cancelDeleteBtn = document.getElementById('cancelDelete');
+        const modalMessage = document.getElementById('modalMessage');
+
+        // Función para generar ID único
+        function generateId() {
+            return Date.now().toString(36) + Math.random().toString(36).substr(2);
+        }
+
+        // Función para validar teléfono
+        function validatePhone(phone) {
+            const phoneRegex = /^[\+]?[\d\s\-\(\)]{7,15}$/;
+            return phoneRegex.test(phone.trim());
+        }
+
+        // Función para validar email
+        function validateEmail(email) {
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return emailRegex.test(email.trim());
+        }
+
+        // Función para mostrar mensajes
+        function showMessage(element, message = '', duration = 3000) {
+            if (message) {
+                element.textContent = message;
+            }
+            element.classList.add('show');
+            setTimeout(() => {
+                element.classList.remove('show');
+            }, duration);
+        }
+
+        // Función para validar formulario
+        function validateForm() {
+            const formData = new FormData(contactForm);
+            let isValid = true;
+            const errors = [];
+
+            // Limpiar errores previos
+            document.querySelectorAll('.form-group').forEach(group => {
+                group.classList.remove('error');
+            });
+
+            // Validar nombre completo
+            const nombreCompleto = formData.get('nombreCompleto').trim();
+            if (!nombreCompleto) {
+                document.querySelector('#nombreCompleto').closest('.form-group').classList.add('error');
+                errors.push('Nombre completo es requerido');
+                isValid = false;
+            }
+
+            // Validar teléfono
+            const telefono = formData.get('telefono').trim();
+            if (!telefono) {
+                document.querySelector('#telefono').closest('.form-group').classList.add('error');
+                errors.push('Teléfono es requerido');
+                isValid = false;
+            } else if (!validatePhone(telefono)) {
+                document.querySelector('#telefono').closest('.form-group').classList.add('error');
+                errors.push('Formato de teléfono inválido');
+                isValid = false;
+            }
+
+            // Validar email si se proporciona
+            const email = formData.get('email').trim();
+            if (email && !validateEmail(email)) {
+                document.querySelector('#email').closest('.form-group').classList.add('error');
+                errors.push('Formato de email inválido');
+                isValid = false;
+            }
+
+            // Verificar si el teléfono ya existe
+            if (telefono && contacts.some(contact => contact.telefono === telefono)) {
+                document.querySelector('#telefono').closest('.form-group').classList.add('error');
+                errors.push('Este número de teléfono ya está registrado');
+                isValid = false;
+            }
+
+            if (!isValid) {
+                showMessage(errorMessage, errors.join('. '));
+            }
+
+            return isValid;
+        }
+
+        // Función para agregar contacto
+        function addContact(contactData) {
+            const newContact = {
+                id: generateId(),
+                nombreCompleto: contactData.nombreCompleto.trim(),
+                telefono: contactData.telefono.trim(),
+                email: contactData.email ? contactData.email.trim() : '',
+                direccion: contactData.direccion ? contactData.direccion.trim() : '',
+                comentarios: contactData.comentarios ? contactData.comentarios.trim() : '',
+                fechaRegistro: new Date()
+            };
+
+            contacts.push(newContact);
+            renderContacts();
+            showMessage(successMessage);
+            contactForm.reset();
+        }
+
+        // Función para eliminar contacto
+        function deleteContact(contactId) {
+            const contactIndex = contacts.findIndex(contact => contact.id === contactId);
+            if (contactIndex !== -1) {
+                const contactCard = document.querySelector(`[data-contact-id="${contactId}"]`);
+                if (contactCard) {
+                    contactCard.classList.add('fade-out');
+                    setTimeout(() => {
+                        contacts.splice(contactIndex, 1);
+                        renderContacts();
+                        showMessage(deleteMessage);
+                    }, 300);
+                } else {
+                    contacts.splice(contactIndex, 1);
+                    renderContacts();
+                    showMessage(deleteMessage);
+                }
+            }
+        }
+
+        // Función para renderizar contactos
+        function renderContacts() {
+            contactCounter.textContent = `Total de contactos: ${contacts.length}`;
+            
+            if (contacts.length === 0) {
+                contactsContainer.innerHTML = `
+                    <div style="text-align: center; padding: 40px; color: #7f8c8d;">
+                        <p>No hay contactos registrados aún.</p>
+                        <p>¡Registra el primer contacto usando el formulario!</p>
+                    </div>
+                `;
+                return;
+            }
+
+            contactsContainer.innerHTML = contacts.map(contact => `
+                <div class="contact-card" data-contact-id="${contact.id}">
+                    <div class="contact-info-section">
+                        <div class="contact-name">${contact.nombreCompleto}</div>
+                        <div class="contact-info">📞 ${contact.telefono}</div>
+                        ${contact.email ? `<div class="contact-info">📧 ${contact.email}</div>` : ''}
+                        ${contact.direccion ? `<div class="contact-info">📍 ${contact.direccion}</div>` : ''}
+                        ${contact.comentarios ? `<div class="contact-info">💬 ${contact.comentarios}</div>` : ''}
+                        <div class="contact-info">📅 ${contact.fechaRegistro.toLocaleDateString('es-ES')}</div>
+                    </div>
+                    <div class="contact-actions">
+                        <button class="btn-delete" onclick="showDeleteConfirmation('${contact.id}', '${contact.nombreCompleto}')">
+                            Eliminar
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Función para mostrar confirmación de eliminación
+        function showDeleteConfirmation(contactId, contactName) {
+            contactToDelete = contactId;
+            modalMessage.textContent = `¿Estás seguro de que quieres eliminar el contacto de ${contactName}?`;
+            confirmationModal.classList.add('show');
+        }
+
+        // Función para ocultar modal de confirmación
+        function hideDeleteConfirmation() {
+            confirmationModal.classList.remove('show');
+            contactToDelete = null;
+        }
+
+        // Event listeners
+        contactForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            if (!validateForm()) {
+                return;
+            }
+
+            // Simular loading
+            const originalText = submitBtn.textContent;
+            submitBtn.innerHTML = '<span class="loading"></span>Registrando...';
+            submitBtn.disabled = true;
+
+            setTimeout(() => {
+                const formData = new FormData(contactForm);
+                const contactData = Object.fromEntries(formData.entries());
+                addContact(contactData);
+                
+                submitBtn.textContent = originalText;
+                submitBtn.disabled = false;
+            }, 1000);
+        });
+
+        // Event listeners para validación en tiempo real
+        document.getElementById('nombreCompleto').addEventListener('blur', function() {
+            const formGroup = this.closest('.form-group');
+            if (this.value.trim()) {
+                formGroup.classList.remove('error');
+            }
+        });
+
+        document.getElementById('telefono').addEventListener('blur', function() {
+            const formGroup = this.closest('.form-group');
+            if (this.value.trim() && validatePhone(this.value.trim())) {
+                formGroup.classList.remove('error');
+            }
+        });
+
+        document.getElementById('email').addEventListener('blur', function() {
+            const formGroup = this.closest('.form-group');
+            if (!this.value.trim() || validateEmail(this.value.trim())) {
+                formGroup.classList.remove('error');
+            }
+        });
+
+        // Event listeners para modal de confirmación
+        confirmDeleteBtn.addEventListener('click', function() {
+            if (contactToDelete) {
+                deleteContact(contactToDelete);
+                hideDeleteConfirmation();
+            }
+        });
+
+        cancelDeleteBtn.addEventListener('click', hideDeleteConfirmation);
+
+        // Cerrar modal al hacer clic fuera
+        confirmationModal.addEventListener('click', function(e) {
+            if (e.target === confirmationModal) {
+                hideDeleteConfirmation();
+            }
+        });
+
+        // Cerrar modal con Escape
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' && confirmationModal.classList.contains('show')) {
+                hideDeleteConfirmation();
+            }
+        });
+
+        // Inicializar la aplicación
+        document.addEventListener('DOMContentLoaded', function() {
+            renderContacts();
+        });
+
+        // Función global para eliminar contacto (llamada desde HTML)
+        window.showDeleteConfirmation = showDeleteConfirmation;
+    </script>
+</body>
+</html>
 
      <!-- Sección: Encuesta de Satisfacción -->
 <section class="content-section hidden" id="encuesta-section">

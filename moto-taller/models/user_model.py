@@ -1,6 +1,7 @@
 from database.db_config import db
 from werkzeug.security import generate_password_hash, check_password_hash
 from sqlalchemy.orm import relationship
+from models.rol_model import Rol  # ✅ Importación necesaria
 
 class Usuario(db.Model):
     __tablename__ = 'usuarios'
@@ -10,16 +11,13 @@ class Usuario(db.Model):
     correo = db.Column(db.String(120), unique=True, nullable=False)
     contraseña_hash = db.Column(db.String(128), nullable=False)
 
-    # Relación con la tabla roles (clave foránea)
     rol_id = db.Column(db.Integer, db.ForeignKey('roles.id'), nullable=False)
     rol = relationship("Rol", backref="usuarios")  # Objeto Rol relacionado
 
     def set_password(self, contraseña):
-        """Genera un hash seguro para la contraseña del usuario"""
         self.contraseña_hash = generate_password_hash(contraseña)
 
     def check_password(self, contraseña):
-        """Verifica si la contraseña ingresada coincide con el hash"""
         return check_password_hash(self.contraseña_hash, contraseña)
 
     def __repr__(self):

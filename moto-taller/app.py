@@ -3,47 +3,63 @@ from database.db_config import db
 
 # Importa los blueprints (controladores)
 from controllers.cliente_controller import cliente_bp
-from controllers.orden_controller import orden_bp  # Asegúrate que el Blueprint se llama 'orden'
+from controllers.orden_controller import orden_bp
 from controllers.auth_controller import auth
 from controllers.dashboard_controller import dashboard
 from controllers.encuesta_controller import comentario_bp
-from controllers.factura_controller import factura_bp
+from controllers.factura_controller import factura_bp, init_factura_config
 
 # Importa la clase de configuración
 from config.config import Config
 
-# Función para crear y configurar la aplicación Flask
 def create_app():
+    # Crear instancia de Flask
     app = Flask(__name__)
+    
+    # Cargar configuración
     app.config.from_object(Config)
-
-    print("Conectando a la base de datos:", app.config['SQLALCHEMY_DATABASE_URI'])
-
-    # Inicializa SQLAlchemy con la app
+    
+    # Configuración de facturas
+    init_factura_config(app)
+    
+    # Inicializar SQLAlchemy
     db.init_app(app)
-
-    # Registro de Blueprints con nombre correcto
-    app.register_blueprint(cliente_bp, url_prefix='/clientes')   # cliente_bp debe ser Blueprint('cliente', __name__)
-    app.register_blueprint(orden_bp, url_prefix='/ordenes')      # orden_bp debe ser Blueprint('orden', __name__)
+    
+    # Registrar blueprints
+    app.register_blueprint(cliente_bp, url_prefix='/clientes')
+    app.register_blueprint(orden_bp, url_prefix='/ordenes')
     app.register_blueprint(auth, url_prefix='/auth')
     app.register_blueprint(dashboard, url_prefix='/dashboard')
     app.register_blueprint(comentario_bp)
     app.register_blueprint(factura_bp)
-
-    # Página principal (landing page)
+    
+    # Ruta principal
     @app.route('/')
     def index():
-        return render_template('PaginaPrincipal.html')
-
+        return render_template('landing/landing.html')
+    
+    # Manejo de errores 404
+    @app.errorhandler(404)
+    def page_not_found(e):
+        return render_template('errors/404.html'), 404
+    
+    # Manejo de errores 500
+    @app.errorhandler(500)
+    def internal_server_error(e):
+        return render_template('errors/500.html'), 500
+    
     return app
 
-# Punto de entrada principal
 if __name__ == '__main__':
+    # Crear aplicación
     app = create_app()
-
-    # Inicializa la base de datos dentro del contexto de la app
+    
+    # Inicializar base de datos dentro del contexto
     with app.app_context():
         from database.init_db import init_db
         init_db()
-
+        print("Base de datos inicializada correctamente")
+    
+    # Ejecutar aplicación
+    print(f"Aplicación iniciada en modo {'debug' if app.config['DEBUG'] else 'producción'}")
     app.run(debug=True)

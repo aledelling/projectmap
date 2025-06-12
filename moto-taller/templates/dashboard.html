@@ -34,18 +34,6 @@
                 </a>
                 {% endif %}
 
-                    <a href="#" class="nav-link" data-section="encuesta">
-                       <i class="fas fa-comments"></i>
-                       <span>Encuesta</span>
-                    </a>
-
-                <!-- Solo el Administrador puede gestionar servicios -->
-                {% if session['rol'] == 'administrador' %}
-                <a href="#" class="nav-link" data-section="servicios">
-                    <i class="fas fa-tools"></i>
-                    <span>Servicios</span>
-                </a>
-
                 <!-- Administrador y Asesor pueden gestionar Factura -->
                 {% if session['rol'] in ['administrador', 'asesor'] %}
                 <a href="#" id="menu-facturacion" class="nav-link active" data-section="factura">
@@ -55,7 +43,6 @@
 
                 {% endif %}
 
-
                 <!-- Solo el Administrador puede gestionar inventario -->
                 {% if session['rol'] == 'administrador' %}
                 <a href="#" class="nav-link" data-section="inventario">
@@ -63,6 +50,25 @@
                 <span>Inventario</span>
                 </a>
                 {% endif %}
+
+
+
+                    <a href="#" class="nav-link" data-section="encuesta">
+                       <i class="fas fa-comments"></i>
+                       <span>Encuesta</span>
+                    </a>
+
+
+                <!-- Solo el Administrador puede gestionar servicios -->
+                {% if session['rol'] == 'administrador' %}
+                <a href="#" class="nav-link" data-section="servicios">
+                    <i class="fas fa-tools"></i>
+                    <span>Servicios</span>
+                </a>
+
+
+
+
 
 
 
@@ -157,10 +163,6 @@
 {% endif %}
 
 
-            <!-- Sección: Gestión de Órdenes -->
-            <!-- Visible para: Administrador, Asesor y Técnico -->
-           <!-- Sección: Gestión de Órdenes -->
-<!-- Visible para: Administrador, Asesor y Técnico -->
 {% if session['rol'] in ['administrador', 'asesor', 'tecnico'] %}
 <section class="content-section hidden" id="ordenes-section">
     <header class="content-header">
@@ -171,11 +173,10 @@
                 <button class="search-btn"><i class="fas fa-search"></i></button>
             </div>
 
-            <!-- Crear orden: solo Administrador y Asesor -->
             {% if session['rol'] in ['administrador', 'asesor'] %}
-            <a href="{{ url_for('orden.nueva_orden') }}" class="btn btn-primary">
+            <button type="button" id="mostrar-formulario-orden" class="btn btn-primary">
                 <i class="fas fa-plus"></i> Nueva Orden
-            </a>
+            </button>
             {% endif %}
         </div>
     </header>
@@ -202,8 +203,71 @@
             </div>
             {% endfor %}
         </div>
+
+        <!-- Formulario de Nueva Orden (oculto al inicio) -->
+        {% if session['rol'] in ['administrador', 'asesor'] %}
+        <div id="formulario-nueva-orden" class="hidden" style="margin-top: 20px;">
+            <form action="{{ url_for('orden.nueva_orden') }}" method="POST" class="form">
+                <div class="form-group">
+                    <label for="cliente_id">Cliente:</label>
+                    <select name="cliente_id" required>
+                        {% for cliente in clientes %}
+                        <option value="{{ cliente.id }}">{{ cliente.nombre }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="moto_id">Moto:</label>
+                    <select name="moto_id" required>
+                        {% for moto in motos %}
+                        <option value="{{ moto.id }}">{{ moto.placa }} - {{ moto.modelo }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="tecnico_id">Técnico:</label>
+                    <select name="tecnico_id" required>
+                        {% for tecnico in tecnicos %}
+                        <option value="{{ tecnico.id }}">{{ tecnico.nombre }} - {{ tecnico.especialidad }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="descripcion">Descripción:</label>
+                    <textarea name="descripcion" rows="4" required></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="fecha_entrada">Fecha de Entrada:</label>
+                    <input type="date" name="fecha_entrada" required>
+                </div>
+
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-save"></i> Guardar Orden
+                    </button>
+                    <button type="button" id="cancelar-formulario-orden" class="btn btn-secondary">Cancelar</button>
+                </div>
+            </form>
+        </div>
+        {% endif %}
     </div>
 </section>
+
+<script>
+    document.getElementById('mostrar-formulario-orden')?.addEventListener('click', () => {
+        document.getElementById('formulario-nueva-orden').classList.remove('hidden');
+        document.getElementById('mostrar-formulario-orden').classList.add('hidden');
+    });
+
+    document.getElementById('cancelar-formulario-orden')?.addEventListener('click', () => {
+        document.getElementById('formulario-nueva-orden').classList.add('hidden');
+        document.getElementById('mostrar-formulario-orden').classList.remove('hidden');
+    });
+</script>
 {% endif %}
 
 
@@ -216,6 +280,201 @@
                     <!-- Contenido interno de servicios... -->
                 </header>
             </section>
+
+<!-- Sección: Gestión de Facturas -->
+{% if session['rol'] in ['administrador', 'asesor'] %}
+<section class="content-section" id="factura-section">
+    <header class="content-header">
+        <h1><i class="fas fa-file-invoice"></i> Gestión de Facturas</h1>
+        <div class="header-actions">
+            <div class="search-bar">
+                <input type="text" placeholder="Buscar facturas..." id="buscar-facturas">
+                <button class="search-btn"><i class="fas fa-search"></i></button>
+            </div>
+
+            <button id="mostrar-formulario-factura" class="btn btn-primary">
+                <i class="fas fa-plus"></i> Nueva Factura
+            </button>
+        </div>
+    </header>
+
+    <!-- Formulario para nueva factura -->
+    <div id="formulario-factura" class="card hidden">
+        <form method="POST" action="{{ url_for('factura.generar_desde_dashboard') }}" class="form">
+            <div class="form-group">
+                <label for="orden_id">Orden de Trabajo:</label>
+                <select class="form-control" name="orden_id" id="orden_id" required>
+    <option value="">Seleccione una orden...</option>
+    {% if ordenes_pendientes %}
+        {% for orden in ordenes_pendientes %}
+        <option value="{{ orden.id }}" 
+                data-subtotal="{{ orden.total_servicios }}">
+            ORD-{{ orden.id }} - {{ orden.cliente.nombre }} ({{ orden.moto.placa }})
+        </option>
+        {% endfor %}
+    {% else %}
+        <option value="" disabled>No hay órdenes disponibles para facturar</option>
+    {% endif %}
+</select>
+            </div>
+
+            <div class="form-group">
+                <label for="subtotal">Subtotal:</label>
+                <input type="number" step="0.01" name="subtotal" id="subtotal" required>
+            </div>
+
+            <div class="form-group">
+                <label>IVA (19%):</label>
+                <span id="iva-calculado">$0.00</span>
+            </div>
+
+            <div class="form-group">
+                <label>Total:</label>
+                <span id="total-calculado">$0.00</span>
+            </div>
+
+            <div class="form-actions">
+                <button type="submit" class="btn btn-success">
+                    <i class="fas fa-save"></i> Generar Factura
+                </button>
+                <button type="button" id="cancelar-formulario-factura" class="btn btn-secondary">Cancelar</button>
+            </div>
+        </form>
+    </div>
+
+    <!-- Lista de facturas -->
+    <div class="card">
+        {% if facturas %}
+        <div class="order-cards">
+            {% for factura in facturas %}
+            <div class="order-card">
+                <div class="order-header">
+                    <span class="order-id">#FAC-{{ factura.id }}</span>
+                    <span class="order-status">Total: ${{ "%.2f"|format(factura.total) }}</span>
+                </div>
+                <div class="order-body">
+                    <div class="order-info">
+                        <span><i class="fas fa-user"></i> {{ factura.orden.cliente.nombre }}</span>
+                        <span><i class="fas fa-motorcycle"></i> {{ factura.orden.moto.modelo }} ({{ factura.orden.moto.placa }})</span>
+                        <span><i class="fas fa-calendar"></i> {{ factura.fecha_emision.strftime('%d/%m/%Y %H:%M') }}</span>
+                    </div>
+                    <div class="order-actions">
+                        <a href="{{ url_for('factura.ver_factura', id=factura.id) }}" class="btn btn-sm btn-icon" title="Ver">
+                            <i class="fas fa-eye"></i>
+                        </a>
+                        {% if factura.pdf_path %}
+                        <a href="{{ url_for('factura.descargar_factura', id=factura.id) }}" class="btn btn-sm btn-icon" title="Descargar PDF">
+                            <i class="fas fa-file-pdf"></i>
+                        </a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="empty-state">
+            <i class="fas fa-file-invoice-dollar"></i>
+            <p>No hay facturas registradas</p>
+        </div>
+        {% endif %}
+    </div>
+</section>
+
+<!-- JavaScript mejorado -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Mostrar/ocultar formulario
+    const mostrarBtn = document.getElementById('mostrar-formulario-factura');
+    const cancelarBtn = document.getElementById('cancelar-formulario-factura');
+    const formulario = document.getElementById('formulario-factura');
+    
+    if (mostrarBtn && formulario && cancelarBtn) {
+        mostrarBtn.addEventListener('click', () => {
+            formulario.classList.remove('hidden');
+            // Desplazar a la sección del formulario
+            formulario.scrollIntoView({ behavior: 'smooth' });
+        });
+        
+        cancelarBtn.addEventListener('click', () => {
+            formulario.classList.add('hidden');
+            document.getElementById('subtotal').value = '';
+            document.getElementById('iva-calculado').textContent = '$0.00';
+            document.getElementById('total-calculado').textContent = '$0.00';
+        });
+    }
+    
+    // Cálculo automático de IVA y Total
+    const subtotalInput = document.getElementById('subtotal');
+    const ordenSelect = document.getElementById('orden_id');
+    
+    function calcularTotales() {
+        const subtotal = parseFloat(subtotalInput.value) || 0;
+        const iva = subtotal * 0.19;
+        const total = subtotal + iva;
+        
+        document.getElementById('iva-calculado').textContent = '$' + iva.toFixed(2);
+        document.getElementById('total-calculado').textContent = '$' + total.toFixed(2);
+    }
+    
+    subtotalInput.addEventListener('input', calcularTotales);
+    
+    // Autocompletar subtotal basado en la orden seleccionada
+    if (ordenSelect) {
+        ordenSelect.addEventListener('change', function() {
+            const selectedOption = this.options[this.selectedIndex];
+            if (selectedOption && selectedOption.dataset.subtotal) {
+                subtotalInput.value = selectedOption.dataset.subtotal;
+                calcularTotales();
+            }
+        });
+    }
+    
+    // Búsqueda de facturas
+    const buscarInput = document.getElementById('buscar-facturas');
+    if (buscarInput) {
+        buscarInput.addEventListener('input', function() {
+            const searchTerm = this.value.toLowerCase();
+            document.querySelectorAll('.order-card').forEach(card => {
+                const text = card.textContent.toLowerCase();
+                card.style.display = text.includes(searchTerm) ? '' : 'none';
+            });
+        });
+    }
+});
+</script>
+
+<style>
+/* Estilos adicionales para mejor visualización */
+#formulario-factura {
+    transition: all 0.3s ease;
+}
+
+.order-card {
+    margin-bottom: 1rem;
+    border: 1px solid #eee;
+    border-radius: 8px;
+    padding: 1rem;
+    transition: all 0.2s ease;
+}
+
+.order-card:hover {
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.empty-state {
+    text-align: center;
+    padding: 2rem;
+    color: #666;
+}
+
+.empty-state i {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    color: #ccc;
+}
+</style>
+{% endif %}
 
    <!-- Sección: Inventario -->
 {% if session['rol'] in ['administrador', 'asesor'] %}
@@ -261,29 +520,259 @@
 </main>
 </div>
 
-             <!-- Sección: Facturación -->
-            {% if session['rol'] in ['administrador', 'asesor'] %}
-            <section class="content-section hidden" id="factura-section">
-                <header class="content-header">
-                    <h1>Generar Factura</h1>
-                     <form method="POST">
-                        <label for="orden_id">Orden:</label>
-                         <select name="orden_id" required>
-            {% for orden in ordenes %}
-                <option value="{{ orden.id }}">Orden #{{ orden.id }} - {{ orden.cliente }} ({{ orden.placa }})</option>
+<!-- Sección: Gestión de Facturas -->
+<!-- Visible para: Administrador y Asesor -->
+{% if session['rol'] in ['administrador', 'asesor'] %}
+<section class="content-section hidden" id="factura-section">
+    <header class="content-header">
+        <h1><i class="fas fa-file-invoice"></i> Gestión de Facturas</h1>
+        <div class="header-actions">
+            <div class="search-bar">
+                <input type="text" placeholder="Buscar facturas..." id="buscar-facturas">
+                <button class="search-btn"><i class="fas fa-search"></i></button>
+            </div>
+
+            <!-- Botón para mostrar formulario -->
+            <button id="mostrar-formulario-factura" class="btn btn-primary">
+                <i class="fas fa-plus"></i> Nueva Factura
+            </button>
+        </div>
+    </header>
+
+    <!-- Formulario oculto para crear nueva factura -->
+<!-- Formulario para nueva factura -->
+<!-- Formulario para nueva factura -->
+<div id="formulario-factura" class="card {% if not show_form %}hidden{% endif %}">
+    <div class="card-header">
+        <h4><i class="fas fa-file-invoice"></i> Nueva Factura</h4>
+    </div>
+    <div class="card-body">
+        <form method="POST" action="{{ url_for('factura.generar_desde_dashboard') }}" enctype="multipart/form-data" id="form-factura">
+            <div class="form-group mb-3">
+                <label for="orden_id" class="form-label">Orden de Trabajo *</label>
+                <select class="form-select" name="orden_id" id="orden_id" required>
+                    <option value="">Seleccione una orden...</option>
+                    {% if ordenes_pendientes %}
+                        {% for orden in ordenes_pendientes %}
+                        <option value="{{ orden.id }}" 
+                                data-subtotal="{{ orden.total_servicios }}"
+                                data-cliente="{{ orden.cliente.nombre }}"
+                                data-moto="{{ orden.moto.modelo }} ({{ orden.moto.placa }})">
+                            ORD-{{ orden.id }} - {{ orden.cliente.nombre }} ({{ orden.moto.placa }})
+                        </option>
+                        {% endfor %}
+                    {% else %}
+                        <option value="" disabled>No hay órdenes pendientes de facturación</option>
+                    {% endif %}
+                </select>
+                <small class="form-text text-muted">Solo se muestran órdenes completadas y no facturadas</small>
+            </div>
+
+            <div class="row mb-3">
+                <div class="col-md-4">
+                    <label for="subtotal" class="form-label">Subtotal *</label>
+                    <div class="input-group">
+                        <span class="input-group-text">$</span>
+                        <input type="number" class="form-control" name="subtotal" id="subtotal" 
+                               step="0.01" min="0" required>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label">IVA (19%)</label>
+                    <div class="input-group">
+                        <span class="input-group-text">$</span>
+                        <input type="text" class="form-control" id="iva-calculado" readonly value="0.00">
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label">Total</label>
+                    <div class="input-group">
+                        <span class="input-group-text">$</span>
+                        <input type="text" class="form-control" id="total-calculado" readonly value="0.00">
+                    </div>
+                </div>
+            </div>
+
+            <div class="d-flex justify-content-between">
+                <button type="button" id="cancelar-formulario-factura" class="btn btn-outline-secondary">
+                    <i class="fas fa-times me-1"></i> Cancelar
+                </button>
+                <button type="submit" class="btn btn-primary">
+                    <i class="fas fa-save me-1"></i> Generar Factura
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+    <!-- Lista de facturas ya generadas -->
+    <div class="card">
+        {% if facturas %}
+        <div class="order-cards">
+            {% for factura in facturas %}
+            <div class="order-card">
+                <div class="order-header">
+                    <span class="order-id">#FAC-{{ factura.id }}</span>
+                    <span class="order-status">Total: ${{ "%.2f"|format(factura.total) }}</span>
+                </div>
+                <div class="order-body">
+                    <div class="order-info">
+                        <span><i class="fas fa-user"></i> {{ factura.orden.cliente.nombre }}</span>
+                        <span><i class="fas fa-motorcycle"></i> {{ factura.orden.moto.modelo }} ({{ factura.orden.moto.placa }})</span>
+                        <span><i class="fas fa-calendar"></i> {{ factura.fecha_emision.strftime('%d/%m/%Y %H:%M') if factura.fecha_emision else 'Fecha no disponible' }}</span>
+                    </div>
+                    <div class="order-actions">
+                        <a href="{{ url_for('factura.ver_factura', id=factura.id) }}" class="btn btn-sm btn-icon" title="Ver"><i class="fas fa-eye"></i></a>
+                        <a href="{{ url_for('factura.descargar_factura', id=factura.id) }}" class="btn btn-sm btn-icon" title="Descargar PDF"><i class="fas fa-file-pdf"></i></a>
+                    </div>
+                </div>
+            </div>
             {% endfor %}
-             </select>
+        </div>
+        {% else %}
+        <div class="empty-state">
+            <i class="fas fa-file-invoice-dollar"></i>
+            <p>No hay facturas registradas</p>
+        </div>
+        {% endif %}
+    </div>
+</section>
 
-        <label for="subtotal">Subtotal:</label>
-        <input type="number" step="0.01" name="subtotal" required>
+<!-- JavaScript para el manejo del formulario -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Elementos del formulario
+    const ordenSelect = document.getElementById('orden_id');
+    const subtotalInput = document.getElementById('subtotal');
+    const ivaCalculado = document.getElementById('iva-calculado');
+    const totalCalculado = document.getElementById('total-calculado');
+    const formFactura = document.getElementById('form-factura');
+    
+    // Función para calcular totales
+    function calcularTotales() {
+        const subtotal = parseFloat(subtotalInput.value) || 0;
+        const iva = subtotal * 0.19;
+        const total = subtotal + iva;
+        
+        ivaCalculado.value = iva.toFixed(2);
+        totalCalculado.value = total.toFixed(2);
+    }
+    
+    // Autocompletar subtotal al seleccionar orden
+    if (ordenSelect) {
+        ordenSelect.addEventListener('change', function() {
+            const selectedOption = this.options[this.selectedIndex];
+            if (selectedOption && selectedOption.dataset.subtotal) {
+                subtotalInput.value = selectedOption.dataset.subtotal;
+                calcularTotales();
+            }
+        });
+    }
+    
+    // Calcular al cambiar el subtotal
+    if (subtotalInput) {
+        subtotalInput.addEventListener('input', calcularTotales);
+    }
+    
+    // Validación del formulario
+    if (formFactura) {
+        formFactura.addEventListener('submit', function(e) {
+            if (!ordenSelect.value) {
+                e.preventDefault();
+                alert('Debe seleccionar una orden de trabajo');
+                return false;
+            }
+            
+            if (!subtotalInput.value || parseFloat(subtotalInput.value) <= 0) {
+                e.preventDefault();
+                alert('El subtotal debe ser mayor a cero');
+                return false;
+            }
+            return true;
+        });
+    }
+    
+    // Botón cancelar
+    const cancelarBtn = document.getElementById('cancelar-formulario-factura');
+    if (cancelarBtn) {
+        cancelarBtn.addEventListener('click', function() {
+            document.getElementById('formulario-factura').classList.add('hidden');
+            formFactura.reset();
+            ivaCalculado.value = '0.00';
+            totalCalculado.value = '0.00';
+        });
+    }
+});
+</script>
+{% endif %}
 
-        <button type="submit">Generar Factura</button>
+     <!-- Sección: Encuesta de Satisfacción -->
+<section class="content-section hidden" id="encuesta-section">
+    <header class="content-header">
+        <h1><i class="fas fa-comments"></i> Encuesta de Satisfacción</h1>
+         <h2>FORMULARIO DE SATISFACCION</h2>
+    <form action="" method="post">
+        <label>Nombre:</label><br>
+        <input type="text" name="nombre" required><br><br>
 
-           
+        <label>Correo:</label><br>
+        <input type="email" name="correo" required><br><br>
+
+        <label>¿Encontraste fácilmente la información que buscabas?</label><br>
+        <select name="p1">
+            <option value="1">Si</option>
+            <option value="2">No</option>
+        </select><br><br>
+
+        <label>¿Qué tan satisfecho estás con tu experiencia?</label><br>
+        <select name="p2">
+            <option value="1">Muy Malo</option>
+            <option value="2">Malo</option>
+            <option value="3">Regular</option>
+            <option value="4">Bueno</option>
+            <option value="5">Excelente</option>
+        </select><br><br>
+
+        <label>¿Qué te parece el diseño visual?</label><br>
+        <select name="p3">
+            <option value="1">Muy Malo</option>
+            <option value="2">Malo</option>
+            <option value="3">Regular</option>
+            <option value="4">Bueno</option>
+            <option value="5">Excelente</option>
+        </select><br><br>
+
+        <label>¿El proceso de compra fue claro y sencillo?</label><br>
+        <select name="p4">
+            <option value="SI">Sí</option>
+            <option value="NO">No</option>
+        </select><br><br>
+
+        <label>¿Cuánto recomendarías nuestro sitio (1-10)?</label><br>
+        <select name="p5">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+            <option value="6">6</option>
+            <option value="7">7</option>
+            <option value="8">8</option>
+            <option value="9">9</option>
+            <option value="10">10</option>
+        </select><br><br>
+
+        <label>¿Por qué recomendarías nuestros servicios?</label><br>
+        <textarea name="comentario1"></textarea><br><br>
+
+        <label>¿Qué podríamos mejorar?</label><br>
+        <textarea name="comentario2"></textarea><br><br>
+
+        <input type="submit" style="color: red;" value="Enviar">
     </form>
-                </header>
-            </section>
-            {% endif %}
+    </header>
+   
+</section>
 
 
             <!-- Sección: Reportes -->
@@ -640,6 +1129,7 @@ document.getElementById('cancelar-formulario-cliente')?.addEventListener('click'
     document.getElementById('mostrar-formulario-cliente').classList.remove('hidden');
 });
 </script>
-    
+
+
 </body>
 </html>

@@ -41,7 +41,7 @@ def crear_factura_db(orden_id, subtotal):
 def generar_desde_dashboard():
     # Obtener órdenes completadas y no facturadas
     ordenes_pendientes = OrdenTrabajo.query.filter(
-        OrdenTrabajo.estado == 'completada',
+        OrdenTrabajo.estado == 'Listo para entrega',
         ~exists().where(Factura.orden_id == OrdenTrabajo.id)
     ).all()
     
@@ -53,7 +53,7 @@ def generar_desde_dashboard():
             # Verificar que la orden existe y está pendiente
             orden = OrdenTrabajo.query.filter_by(
                 id=orden_id,
-                estado='completada'
+                estado='Listo para entrega'
             ).first_or_404()
             
             # Crear la factura

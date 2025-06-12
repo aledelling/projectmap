@@ -7,7 +7,9 @@ class Cliente(db.Model):
 
     id = Column(Integer, primary_key=True)
     nombre = Column(String, nullable=False)
-    # otros campos...
+    cedula = Column(String, nullable=False, unique=True)
+    celular = Column(String, nullable=False)
+    correo = Column(String, nullable=True)
 
     motos = relationship('Moto', back_populates='cliente')
     ordenes = relationship('OrdenTrabajo', back_populates='cliente')

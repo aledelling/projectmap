@@ -37,4 +37,4 @@ def nueva_orden():
     clientes = Cliente.query.all()
     motos = Moto.query.all()
     tecnicos = Tecnico.query.all()
-    return render_template('nueva_orden.html', clientes=clientes, motos=motos, tecnicos=tecnicos)
+    return render_template('ordenes/nueva_orden.html', clientes=clientes, motos=motos, tecnicos=tecnicos)

@@ -16,6 +16,56 @@ Desarrollar una plataforma web con tecnologías accesibles, que permita:
 * Mejorar la atención al cliente con formularios de contacto y encuestas de satisfacción.
 * Ofrecer una vista clara del estado de cada trabajo en curso.
 
+# 🛠️ Moto-Taller – Sistema de Gestión para Talleres de Motocicletas
+
+Moto-Taller es una plataforma web diseñada para digitalizar y optimizar la gestión operativa de talleres de motocicletas. Con ella, se puede administrar clientes, motos, órdenes de trabajo, facturación y encuestas de satisfacción, todo desde una interfaz intuitiva y basada en roles.
+
+---
+
+## 🌟 Visión del Proyecto
+
+### 🎯 Vision Board
+
+| Elemento                | Descripción                                                                                      |
+|-------------------------|--------------------------------------------------------------------------------------------------|
+| **Meta principal**      | Digitalizar y automatizar los procesos internos de un taller mecánico de motocicletas.          |
+| **Problema a resolver** | Falta de control, trazabilidad y eficiencia en talleres que aún usan métodos manuales.          |
+| **Clientes clave**      | Propietarios de talleres, técnicos mecánicos, asesores de servicio y clientes de motos.         |
+| **Necesidades**         | Registro claro de órdenes, consulta del estado del trabajo, facturación y encuestas de servicio.|
+| **Solución propuesta**  | Sistema web modular con acceso controlado, interfaz sencilla y funcionalidades prácticas.        |
+| **Ventajas competitivas** | Fácil de usar, accesible desde cualquier navegador, pensado para el entorno real de un taller.  |
+
+---
+
+## 🗺️ Story Mapping
+
+| Fase / Actor          | Cliente                            | Asesor / Técnico                           | Administrador                             |
+|----------------------|-------------------------------------|--------------------------------------------|-------------------------------------------|
+| **Inicio**           | Consultar el estado de su orden     | Registrar orden de trabajo                 | Crear usuarios y asignar roles            |
+| **Gestión**          | Dar feedback sobre el servicio      | Actualizar estado de orden (En progreso, Listo) | Supervisar procesos y ordenes        |
+| **Facturación**      | Recibir comprobante digital         | Asociar repuestos y costos                 | Generar y revisar facturas                |
+| **Satisfacción**     | Responder encuesta simple           |                                            | Ver métricas de satisfacción              |
+| **Inventario**       |                                     | Ver disponibilidad de repuestos            | Cargar o editar stock                     |
+
+---
+
+## 🚀 Producto Mínimo Viable (MVP)
+
+### Objetivo
+Tener una primera versión funcional del sistema que permita gestionar clientes y órdenes de trabajo.
+
+### Incluye
+
+- Registro y edición de clientes y motos
+- Creación y gestión de órdenes de trabajo
+- Cambio de estado de la orden (nuevo, en progreso, terminado)
+- Sistema de roles: Administrador, Técnico, Asesor, Cliente
+- Visualización del estado de reparación por parte del cliente
+- Encuesta de satisfacción simple al finalizar la orden
+- Generación de facturas básicas
+
+---
+
 ## 📂 Estructura del Proyecto
 
 ```

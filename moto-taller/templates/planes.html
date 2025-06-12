@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Planes | Mekanikapp</title>
+  <style>
+    .planes-container {
+      padding: 40px;
+      text-align: center;
+    }
+
+    .planes-container h1 {
+      margin-bottom: 30px;
+      color: rgb(213, 0, 0);
+    }
+
+    .planes {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 30px;
+    }
+
+    .plan {
+      background-color: white;
+      border-radius: 15px;
+      padding: 20px 30px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+      max-width: 300px;
+      text-align: left;
+      transition: transform 0.3s ease;
+    }
+
+    .plan:hover {
+      transform: scale(1.05);
+    }
+
+    .plan h2 {
+      margin-top: 0;
+      color: rgb(213, 0, 0);
+    }
+
+    .plan p {
+      margin: 10px 0;
+    }
+
+    .plan .precio {
+      font-size: 24px;
+      font-weight: bold;
+      color: green;
+    }
+  </style>
+</head>
+<body>
+
+  <header class="header">
+    <a href="PaginaPrincipal.html" class="Logo">
+      <img src="LOGO MEKANIKAPP BN.png" alt="logo de la compañía" width="150">
+    </a>
+    <nav>
+      <a href="planes.html" class="nav-links">Nuestros Planes</a>
+      <a href="quienessomos.html" class="nav-links">¿Quiénes somos?</a> 
+      <a href="contacto.html" class="nav-links">Contáctanos</a>
+      <a href="PaginaPrincipal.html" class="nav-links">Inicio</a>
+    </nav>
+  </header>
+
+  <section class="planes-container">
+    <h1>Nuestros Planes</h1>
+    <div class="planes">
+      <div class="plan">
+        <h2>Plan Básico</h2>
+        <p>Ideal para negocios pequeños o independientes.</p>
+        <p class="precio">$49.000/mes</p>
+      </div>
+
+      <div class="plan">
+        <h2>Plan Profesional</h2>
+        <p>Para empresas que necesitan más herramientas y soporte.</p>
+        <p class="precio">$89.000/mes</p>
+      </div>
+
+      <div class="plan">
+        <h2>Plan Premium</h2>
+        <p>Todo incluido. Atención personalizada y reportes avanzados.</p>
+        <p class="precio">$129.000/mes</p>
+      </div>
+    </div>
+  </section>
+
+</body>
+</html>

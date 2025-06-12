@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mi Proyecto</title>
+</head>
+<body class="inicio-fondo"></body>
+
+<style>
+/* Estilos generales */
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  margin: 0;
+}
+
+.inicio-fondo {
+  background-image: url('../IMAGEN1.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+}
+
+a {
+  text-decoration: none;
+  color: black;
+}
+
+/* Header principal */
+.header {
+  display: flex;
+  background-color: rgb(213, 0, 0);
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 30px;
+}
+
+/* Enlaces del menú */
+.nav-links {
+  background-color: white;
+  padding: 10px 20px;
+  border-radius: 10px;
+  margin-right: 10px;
+  transition: all 0.3s ease;
+  font-weight: bold;
+  box-shadow: 0 0 0 transparent;
+}
+
+.nav-links:hover {
+  color: white;
+  background-color: rgb(213, 0, 0);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+/* Botón menú hamburguesa (inicialmente oculto) */
+.menu-toggle {
+  display: none;
+  font-size: 28px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: white;
+}
+
+/* Diseño responsive */
+@media (max-width: 768px) {
+  .header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .menu-toggle {
+    display: block;
+    margin-left: auto;
+  }
+
+  nav {
+    display: none;
+    flex-direction: column;
+    width: 100%;
+    margin-top: 10px;
+  }
+
+  nav.show {
+    display: flex;
+  }
+
+  .nav-links {
+    width: 100%;
+    margin: 5px 0;
+    text-align: left;
+  }
+}
+
+.inicio-container {
+  display: block;
+  width: max-content;
+  padding: 60px 20px;
+  text-align: center;
+  background-color: rgba(255, 255, 255, 0.7);
+  border-radius: 15px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  margin: 40px auto 40px auto; /* Margen arriba y abajo para que tenga espacio y se vea centrado */
+}
+
+.inicio-container .contenido {
+  max-width: 800px;
+  margin: 0 auto;
+  font-size: 18px;
+  line-height: 1.8;
+}
+
+.inicio-container h1 {
+  font-size: 32px;
+  color: rgb(213, 0, 0);
+  margin-bottom: 20px;
+}
+
+.inicio-container .marca {
+  font-weight: bold;
+  color: rgb(170, 0, 0);
+}
+
+.beneficios {
+  list-style: none;
+  padding: 0;
+  margin: 30px 0;
+  text-align: left;
+}
+
+.beneficios li {
+  margin-bottom: 10px;
+  font-weight: 500;
+}
+
+.btn-prueba {
+  display: inline-block;
+  margin-top: 20px;
+  background-color: rgb(213, 0, 0);
+  color: white;
+  padding: 15px 25px;
+  border-radius: 10px;
+  text-decoration: none;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+}
+
+.btn-prueba:hover {
+  background-color: rgb(170, 0, 0);
+}
+
+.footer {
+  background-color: rgb(213, 0, 0); /* Rojo degradado */
+  padding: 40px 20px;
+  color: #fff;
+  font-size: 14px;
+}
+
+.footer-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 30px;
+  max-width: 1200px;
+  margin: auto;
+}
+
+.footer-section {
+  flex: 1 1 220px;
+  min-width: 200px;
+}
+
+.footer-section h3 {
+  font-size: 18px;
+  margin-bottom: 10px;
+  color: #fff;
+}
+
+.footer-section p,
+.footer-section label {
+  margin: 5px 0;
+}
+
+.footer-section input {
+  width: 100%;
+  padding: 8px;
+  margin-top: 5px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+.footer-section button {
+  margin-top: 10px;
+  padding: 8px 15px;
+  background-color: #fff;
+  color: #a80000;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background 0.3s ease, color 0.3s ease;
+}
+
+.footer-section button:hover {
+  background-color: #a80000;
+  color: white;
+  border: 1px solid #fff;
+}
+
+</style>
+
+
+<!-- Botones y menú de opciones -->
+<header class="header">
+  <a href="PaginaPrincipal.html" class="Logo">
+    <img src="LOGO MEKANIKAPP BN.png" alt="logo de la compañía" width="150">
+  </a>
+
+  <!-- Botón menú hamburguesa -->
+  <button class="menu-toggle" id="menuToggle">☰</button>
+
+  <!-- Menú de navegación -->
+  <nav id="navMenu">
+    <a href="planes.html" class="nav-links">Nuestros Planes</a>
+    <a href="quienessomos.html" class="nav-links">¿Quiénes somos?</a>
+    <a href="contacto.html" class="nav-links">Contáctanos</a>
+    <a href="PaginaPrincipal.html" class="nav-links">Inicio</a>
+  </nav>
+</header>
+
+<section class="inicio-container">
+  <div class="contenido">
+    <h1>Bienvenido a <span class="marca">Mekanikapp</span></h1>
+    <p>
+      Mekanikapp es la plataforma inteligente que conecta a los conductores con los mejores servicios mecánicos de la ciudad. 
+      Con nuestra app, puedes comparar planes, agendar mantenimientos, recibir alertas personalizadas y contar con el respaldo de talleres certificados.
+    </p>
+    <p>
+      Nuestra misión es transformar la forma en la que cuidas tu vehículo: más rápida, más confiable y con toda la información que necesitas al alcance de tu mano.
+    </p>
+    <ul class="beneficios">
+      <li>✅ Atención 24/7</li>
+      <li>✅ Talleres verificados y calificados</li>
+      <li>✅ Planes personalizados para cada vehículo</li>
+      <li>✅ Historial digital de mantenimiento</li>
+    </ul>
+
+    <a href="#" class="btn-prueba">Solicita una prueba gratuita</a>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="footer-container">
+    <div class="footer-section logo-desc">
+      <img src="LOGO MEKANIKAPP BN.png" alt="Logo MekanikApp" width="130">
+      <p>MekanikApp es una solución confiable y eficiente para la gestión de talleres mecánicos. Nuestra experiencia permite ofrecer herramientas útiles a empresas de todos los tamaños.</p>
+      <div class="social-icons">
+        <a href="https://www.facebook.com/" class="social-icons">facebook</a>
+        <a href="https://www.instagram.com/" class="social-icons">instagram</a>
+        <a href="https://www.youtube.com/" class="social-icons">youtube</a>
+      </div>
+    </div>
+
+    <div class="footer-section software-info">
+      <h3>Software para talleres</h3>
+      <p>CSA218</p>
+    </div>
+
+    <div class="footer-section info">
+      <h3>Información</h3>
+      <p>📍 Av. Caracas #63-9, Bogotá</p>
+      <p>📞 +57 300 123 4567</p>
+      <p>✉️ contacto@mekanikapp.com</p>
+      <p>🕒 Horario: 08:00 am - 06:00 pm</p>
+    </div>
+
+    <div class="footer-section contact">
+      <h3>Contacto</h3>
+      <form>
+        <label for="email">Tu correo electrónico</label><br>
+        <input type="email" id="email" placeholder="correo@ejemplo.com"><br>
+        <button type="submit" class="nav-links">Enviar</button>
+      </form>
+    </div>
+  </div>
+</footer>
+
+<script src="js/script.js"></script>
+
+<!-- Script para activar menú hamburguesa -->
+<script>
+  const toggleButton = document.getElementById('menuToggle');
+  const navMenu = document.getElementById('navMenu');
+
+  toggleButton.addEventListener('click', () => {
+    navMenu.classList.toggle('show');
+  });
+</script>
+
+</body>
+</html>

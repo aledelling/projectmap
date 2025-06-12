@@ -1,0 +1,201 @@
+/* Estilos generales */
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  margin: 0;
+}
+
+.inicio-fondo {
+  background-image: url('../IMAGEN1.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+}
+
+a {
+  text-decoration: none;
+  color: black;
+}
+
+/* Header principal */
+.header {
+  display: flex;
+  background-color: rgb(213, 0, 0);
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 30px;
+}
+
+/* Enlaces del menú */
+.nav-links {
+  background-color: white;
+  padding: 10px 20px;
+  border-radius: 10px;
+  margin-right: 10px;
+  transition: all 0.3s ease;
+  font-weight: bold;
+  box-shadow: 0 0 0 transparent;
+}
+
+.nav-links:hover {
+  color: white;
+  background-color: rgb(213, 0, 0);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+/* Botón menú hamburguesa (inicialmente oculto) */
+.menu-toggle {
+  display: none;
+  font-size: 28px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: white;
+}
+
+/* Diseño responsive */
+@media (max-width: 768px) {
+  .header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .menu-toggle {
+    display: block;
+    margin-left: auto;
+  }
+
+  nav {
+    display: none;
+    flex-direction: column;
+    width: 100%;
+    margin-top: 10px;
+  }
+
+  nav.show {
+    display: flex;
+  }
+
+  .nav-links {
+    width: 100%;
+    margin: 5px 0;
+    text-align: left;
+  }
+}
+
+.inicio-container {
+  display: block;
+  width: max-content;
+  padding: 60px 20px;
+  text-align: center;
+  background-color: rgba(255, 255, 255, 0.7);
+  border-radius: 15px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  margin: 40px auto 40px auto; /* Margen arriba y abajo para que tenga espacio y se vea centrado */
+}
+
+.inicio-container .contenido {
+  max-width: 800px;
+  margin: 0 auto;
+  font-size: 18px;
+  line-height: 1.8;
+}
+
+.inicio-container h1 {
+  font-size: 32px;
+  color: rgb(213, 0, 0);
+  margin-bottom: 20px;
+}
+
+.inicio-container .marca {
+  font-weight: bold;
+  color: rgb(170, 0, 0);
+}
+
+.beneficios {
+  list-style: none;
+  padding: 0;
+  margin: 30px 0;
+  text-align: left;
+}
+
+.beneficios li {
+  margin-bottom: 10px;
+  font-weight: 500;
+}
+
+.btn-prueba {
+  display: inline-block;
+  margin-top: 20px;
+  background-color: rgb(213, 0, 0);
+  color: white;
+  padding: 15px 25px;
+  border-radius: 10px;
+  text-decoration: none;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+}
+
+.btn-prueba:hover {
+  background-color: rgb(170, 0, 0);
+}
+
+.footer {
+  background-color: rgb(213, 0, 0); /* Rojo degradado */
+  padding: 40px 20px;
+  color: #fff;
+  font-size: 14px;
+}
+
+.footer-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 30px;
+  max-width: 1200px;
+  margin: auto;
+}
+
+.footer-section {
+  flex: 1 1 220px;
+  min-width: 200px;
+}
+
+.footer-section h3 {
+  font-size: 18px;
+  margin-bottom: 10px;
+  color: #fff;
+}
+
+.footer-section p,
+.footer-section label {
+  margin: 5px 0;
+}
+
+.footer-section input {
+  width: 100%;
+  padding: 8px;
+  margin-top: 5px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+.footer-section button {
+  margin-top: 10px;
+  padding: 8px 15px;
+  background-color: #fff;
+  color: #a80000;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background 0.3s ease, color 0.3s ease;
+}
+
+.footer-section button:hover {
+  background-color: #a80000;
+  color: white;
+  border: 1px solid #fff;
+}
+
+

@@ -33,7 +33,7 @@ def create_app():
     # Página principal (landing page)
     @app.route('/')
     def index():
-        return render_template('landing.html')
+        return render_template('PaginaPrincipal.html')
 
     return app
 

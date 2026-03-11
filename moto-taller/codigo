@@ -1,17 +1,13 @@
 def generar_excel_productos(self, df_raw, df_results, output_file):
     """
     Genera un Excel con UNA FILA POR PRODUCTO por cliente.
-    Columnas: cedula, numero_celular, conversacion_id, acepto_oferta,
-              tipo_negociacion, producto, obligacion,
-              tasa_campana, fecha_pago, cuota_proyectada
     """
-    # ✅ FIX: Todo el cuerpo del método debe tener 8 espacios de indentación
-    # (4 de la clase + 4 del método). Antes estaba solo con 4 espacios,
-    # lo que hacía que Python interpretara el código como FUERA del método,
-    # causando IndentationError antes de llegar al return output_file.
-
-    timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
-    output_file = f"productos_por_cliente_v2.8_{timestamp}.xlsx"
+    
+    # ✅ FIX: Si output_file no tiene ruta/es None, genera uno con timestamp
+    # Si ya viene con ruta, la respeta
+    if not output_file or output_file == '':
+        timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
+        output_file = f"productos_por_cliente_v2.8_{timestamp}.xlsx"
 
     print("
 🔄 Generando Excel de productos por cliente v2.8...")
@@ -85,13 +81,14 @@ def generar_excel_productos(self, df_raw, df_results, output_file):
     ])
 
     try:
+        # ✅ AQUÍ SE GUARDA EL EXCEL
         with pd.ExcelWriter(output_file, engine='openpyxl') as writer:
             df_productos.to_excel(writer, sheet_name='PRODUCTOS_POR_CLIENTE', index=False)
 
         print(f"✅ Excel productos v2.8 generado: {output_file}")
         print(f"   📋 Filas totales: {len(df_productos):,}")
         print(f"   👥 Clientes únicos: {df_productos['Cedula'].nunique():,}")
-        return output_file  # ✅ Ahora sí es alcanzable
+        return output_file
 
     except Exception as e:
         print(f"❌ Error generando Excel de productos: {str(e)}")

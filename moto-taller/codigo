@@ -1,26 +1,28 @@
 def generar_excel_productos(self, df_raw, df_results, output_file):
-        """
-        Genera un Excel con UNA FILA POR PRODUCTO por cliente.
-        Columnas: cedula, numero_celular, conversacion_id, acepto_oferta,
-                  tipo_negociacion, producto, obligacion,
-                  tasa_campana, fecha_pago, cuota_proyectada
-        """
+    """
+    Genera un Excel con UNA FILA POR PRODUCTO por cliente.
+    Columnas: cedula, numero_celular, conversacion_id, acepto_oferta,
+              tipo_negociacion, producto, obligacion,
+              tasa_campana, fecha_pago, cuota_proyectada
+    """
+    # ✅ FIX: Todo el cuerpo del método debe tener 8 espacios de indentación
+    # (4 de la clase + 4 del método). Antes estaba solo con 4 espacios,
+    # lo que hacía que Python interpretara el código como FUERA del método,
+    # causando IndentationError antes de llegar al return output_file.
 
- 
     timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
     output_file = f"productos_por_cliente_v2.8_{timestamp}.xlsx"
- 
-    print("\n🔄 Generando Excel de productos por cliente v2.8...")
+
+    print("
+🔄 Generando Excel de productos por cliente v2.8...")
     filas = []
- 
-    # Agrupación por ID de conversación (columna índice 9)
+
     conversation_groups = df_raw.groupby(df_raw.iloc[:, 9])
- 
+
     for conversation_id, conversation_data in conversation_groups:
         if pd.isna(conversation_id):
             continue
- 
-        # Extraer mensajes
+
         messages = []
         for _, row in conversation_data.iterrows():
             remitente_raw = str(row.iloc[5]).strip() if len(row) > 5 else ''
@@ -28,31 +30,26 @@ def generar_excel_productos(self, df_raw, df_results, output_file):
                 remitente = 'Bot'
             else:
                 remitente = remitente_raw
- 
+
             messages.append({
                 'remitente': remitente,
                 'mensaje': str(row.iloc[11]).strip() if len(row) > 11 else '',
             })
- 
-        # Cédula
+
         cedula = str(conversation_data.iloc[0, 2]) if len(conversation_data.iloc[0]) > 2 else 'N/A'
- 
-        # Celular
+
         try:
             numero_celular = str(conversation_data.iloc[0, 7]).strip()
             if numero_celular.lower() == 'nan' or pd.isna(conversation_data.iloc[0, 7]):
                 numero_celular = 'N/A'
         except Exception:
             numero_celular = 'N/A'
- 
-        # Aceptó oferta
+
         fila_resultado = df_results[df_results['conversacion_id'] == str(conversation_id)]
         acepto = fila_resultado['acepto_oferta'].values[0] if not fila_resultado.empty else 'N/A'
- 
-        # Extraer productos (método de la clase)
+
         productos = self.extraer_productos_de_conversacion(messages)
- 
-        # Si no hay productos → fila placeholder
+
         if not productos:
             filas.append({
                 'Cedula': cedula,
@@ -67,7 +64,6 @@ def generar_excel_productos(self, df_raw, df_results, output_file):
                 'Cuota_Proyectada': 'N/A',
             })
         else:
-            # 1 fila por producto
             for prod in productos:
                 filas.append({
                     'Cedula': cedula,
@@ -81,24 +77,22 @@ def generar_excel_productos(self, df_raw, df_results, output_file):
                     'Fecha_Pago': prod.get('fecha_pago', 'N/A'),
                     'Cuota_Proyectada': prod.get('cuota_proyectada', 'N/A'),
                 })
- 
-    # Crear DataFrame final
+
     df_productos = pd.DataFrame(filas, columns=[
         'Cedula', 'Numero_Celular', 'Conversacion_ID', 'Acepto_Oferta',
         'Tipo_Negociacion', 'Producto', 'Obligacion',
         'Tasa_Campana', 'Fecha_Pago', 'Cuota_Proyectada'
     ])
- 
-    # Guardar Excel
+
     try:
         with pd.ExcelWriter(output_file, engine='openpyxl') as writer:
             df_productos.to_excel(writer, sheet_name='PRODUCTOS_POR_CLIENTE', index=False)
- 
+
         print(f"✅ Excel productos v2.8 generado: {output_file}")
         print(f"   📋 Filas totales: {len(df_productos):,}")
         print(f"   👥 Clientes únicos: {df_productos['Cedula'].nunique():,}")
-        return output_file
- 
+        return output_file  # ✅ Ahora sí es alcanzable
+
     except Exception as e:
         print(f"❌ Error generando Excel de productos: {str(e)}")
         return None
